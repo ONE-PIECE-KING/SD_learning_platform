@@ -1,0 +1,72 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(go:*)",
+      "Bash(sudo apt:*)",
+      "Bash(sudo apt install:*)",
+      "Bash(/usr/local/go/bin/go build:*)",
+      "Bash(chmod:*)",
+      "Bash(~/.claude/claude-stats:*)",
+      "Bash(ls:*)",
+      "Bash(cd:*)",
+      "Bash(pwd:*)",
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(tree:*)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(mv:*)",
+      "Bash(cp:*)",
+      "Bash(tee:*)",
+      "Bash(git:*)",
+      "Bash(npm:*)",
+      "Bash(node:*)",
+      "Bash(nvm:*)",
+      "Bash(python:*)",
+      "Bash(python3:*)",
+      "Bash(pip:*)",
+      "Bash(pip3:*)",
+      "Bash(pyenv:*)",
+      "Bash(poetry:*)",
+      "Bash(docker:*)",
+      "Bash(docker compose:*)",
+      "Bash(wget:*)",
+      "Bash(curl:*)",
+      "Bash(rg:*)",
+      "Bash(bat:*)",
+      "Bash(exa:*)",
+      "Bash(htop:*)",
+      "Bash(which:*)",
+      "Bash(command:*)",
+      "Bash(echo:*)",
+      "Bash(source:*)",
+      "Read(*)",
+      "Write(*)",
+      "Edit(*)",
+      "Glob(*)",
+      "Grep(*)"
+    ],
+    "deny": [],
+    "ask": []
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "D:\\sideproject\\.claude\\statusline-go.exe",
+    "padding": 0
+  },
+  "model": "opus",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": ".*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node D:\\sideproject\\.claude\\count_tokens.js"
+          }
+        ]
+      }
+    ]
+  }
+}

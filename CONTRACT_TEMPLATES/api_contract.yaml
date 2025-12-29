@@ -1,0 +1,490 @@
+# ============================================================
+# API Contract Template (OpenAPI 3.0)
+# 用於定義前後端之間的 API 契約
+# ============================================================
+# 使用說明：
+# 1. 在 Day 1 契約定義日，由 API Owner 建立/更新此文件
+# 2. 前後端 Owner 共同 Review 並簽核
+# 3. 契約確定後，雙方可平行開發
+# ============================================================
+
+openapi: 3.0.3
+info:
+  title: "[專案名稱] API Contract"
+  description: |
+    ## 契約資訊
+    - **契約版本**: v1.0.0
+    - **建立日期**: YYYY-MM-DD
+    - **契約 Owner**: [後端 Owner 姓名]
+    - **依賴方**: [前端 Owner 姓名]
+
+    ## 契約狀態
+    - [ ] Draft (草稿)
+    - [ ] Review (審核中)
+    - [x] Approved (已核准)
+    - [ ] Frozen (已凍結，禁止變更)
+
+    ## 變更歷史
+    | 版本 | 日期 | 變更者 | 變更內容 |
+    |------|------|--------|----------|
+    | v1.0.0 | YYYY-MM-DD | [姓名] | 初始版本 |
+  version: "1.0.0"
+  contact:
+    name: API Owner
+    email: owner@example.com
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development server
+  - url: https://api.example.com/v1
+    description: Production server
+
+# ============================================================
+# 標籤定義 - 用於分組 API 端點
+# ============================================================
+tags:
+  - name: Users
+    description: |
+      使用者相關操作
+      - **Owner**: [Backend Owner 姓名]
+      - **依賴模組**: auth, profile
+  - name: Products
+    description: |
+      產品相關操作
+      - **Owner**: [Backend Owner 姓名]
+      - **依賴模組**: inventory, pricing
+
+# ============================================================
+# API 端點定義
+# ============================================================
+paths:
+  # ----------------------------------------------------------
+  # 使用者模組
+  # ----------------------------------------------------------
+  /users:
+    get:
+      tags:
+        - Users
+      summary: 取得使用者列表
+      description: |
+        ### 契約說明
+        - **請求方**: Frontend
+        - **提供方**: Backend
+        - **整合優先級**: P1 (Day 3 必須完成)
+      operationId: getUsers
+      parameters:
+        - name: page
+          in: query
+          description: 頁碼 (從 1 開始)
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: limit
+          in: query
+          description: 每頁筆數
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: search
+          in: query
+          description: 搜尋關鍵字 (姓名或 email)
+          required: false
+          schema:
+            type: string
+            maxLength: 100
+      responses:
+        '200':
+          description: 成功取得使用者列表
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserListResponse'
+              example:
+                success: true
+                data:
+                  users:
+                    - id: "usr_123"
+                      email: "user@example.com"
+                      name: "John Doe"
+                      role: "member"
+                      createdAt: "2024-01-15T10:30:00Z"
+                  pagination:
+                    page: 1
+                    limit: 20
+                    total: 150
+                    totalPages: 8
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+    post:
+      tags:
+        - Users
+      summary: 建立新使用者
+      description: |
+        ### 契約說明
+        - **請求方**: Frontend (註冊頁面)
+        - **提供方**: Backend
+        - **整合優先級**: P1
+      operationId: createUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+            example:
+              email: "newuser@example.com"
+              password: "SecurePass123!"
+              name: "Jane Doe"
+      responses:
+        '201':
+          description: 使用者建立成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '409':
+          description: Email 已存在
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+              example:
+                success: false
+                error:
+                  code: "USER_EMAIL_EXISTS"
+                  message: "此 email 已被註冊"
+
+  /users/{userId}:
+    get:
+      tags:
+        - Users
+      summary: 取得單一使用者
+      operationId: getUserById
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: 成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - Users
+      summary: 更新使用者資料
+      operationId: updateUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      tags:
+        - Users
+      summary: 刪除使用者
+      operationId: deleteUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '204':
+          description: 刪除成功
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+# ============================================================
+# 共用元件定義
+# ============================================================
+components:
+  # ----------------------------------------------------------
+  # 資料模型 (Schemas)
+  # ----------------------------------------------------------
+  schemas:
+    # 基礎回應格式
+    BaseResponse:
+      type: object
+      required:
+        - success
+      properties:
+        success:
+          type: boolean
+          description: 請求是否成功
+
+    # 錯誤回應
+    ErrorResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          required:
+            - error
+          properties:
+            error:
+              type: object
+              required:
+                - code
+                - message
+              properties:
+                code:
+                  type: string
+                  description: 錯誤代碼
+                  example: "VALIDATION_ERROR"
+                message:
+                  type: string
+                  description: 錯誤訊息
+                  example: "請求參數驗證失敗"
+                details:
+                  type: array
+                  description: 詳細錯誤資訊
+                  items:
+                    type: object
+                    properties:
+                      field:
+                        type: string
+                      message:
+                        type: string
+
+    # 分頁資訊
+    Pagination:
+      type: object
+      required:
+        - page
+        - limit
+        - total
+        - totalPages
+      properties:
+        page:
+          type: integer
+          description: 當前頁碼
+        limit:
+          type: integer
+          description: 每頁筆數
+        total:
+          type: integer
+          description: 總筆數
+        totalPages:
+          type: integer
+          description: 總頁數
+
+    # 使用者模型
+    User:
+      type: object
+      required:
+        - id
+        - email
+        - name
+        - role
+        - createdAt
+      properties:
+        id:
+          type: string
+          description: 使用者 ID
+          pattern: '^usr_[a-zA-Z0-9]+$'
+          example: "usr_123abc"
+        email:
+          type: string
+          format: email
+          description: Email 地址
+          example: "user@example.com"
+        name:
+          type: string
+          description: 使用者名稱
+          minLength: 1
+          maxLength: 100
+          example: "John Doe"
+        role:
+          type: string
+          enum: [admin, member, guest]
+          description: 使用者角色
+          example: "member"
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          description: 頭像 URL
+        createdAt:
+          type: string
+          format: date-time
+          description: 建立時間
+        updatedAt:
+          type: string
+          format: date-time
+          description: 更新時間
+
+    # 使用者列表回應
+    UserListResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              type: object
+              required:
+                - users
+                - pagination
+              properties:
+                users:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/User'
+                pagination:
+                  $ref: '#/components/schemas/Pagination'
+
+    # 單一使用者回應
+    UserResponse:
+      allOf:
+        - $ref: '#/components/schemas/BaseResponse'
+        - type: object
+          required:
+            - data
+          properties:
+            data:
+              $ref: '#/components/schemas/User'
+
+    # 建立使用者請求
+    CreateUserRequest:
+      type: object
+      required:
+        - email
+        - password
+        - name
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email 地址
+        password:
+          type: string
+          format: password
+          minLength: 8
+          maxLength: 100
+          description: 密碼 (至少8字元，需包含大小寫及數字)
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: 使用者名稱
+
+    # 更新使用者請求
+    UpdateUserRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          maxLength: 100
+          description: 使用者名稱
+        avatar:
+          type: string
+          format: uri
+          nullable: true
+          description: 頭像 URL
+
+  # ----------------------------------------------------------
+  # 共用參數
+  # ----------------------------------------------------------
+  parameters:
+    UserId:
+      name: userId
+      in: path
+      description: 使用者 ID
+      required: true
+      schema:
+        type: string
+        pattern: '^usr_[a-zA-Z0-9]+$'
+
+  # ----------------------------------------------------------
+  # 共用回應
+  # ----------------------------------------------------------
+  responses:
+    BadRequest:
+      description: 請求參數錯誤
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "VALIDATION_ERROR"
+              message: "請求參數驗證失敗"
+              details:
+                - field: "email"
+                  message: "email 格式不正確"
+
+    Unauthorized:
+      description: 未授權
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "UNAUTHORIZED"
+              message: "請先登入"
+
+    NotFound:
+      description: 資源不存在
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "NOT_FOUND"
+              message: "找不到指定的資源"
+
+    InternalError:
+      description: 伺服器錯誤
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+          example:
+            success: false
+            error:
+              code: "INTERNAL_ERROR"
+              message: "伺服器發生錯誤，請稍後再試"
+
+  # ----------------------------------------------------------
+  # 安全機制
+  # ----------------------------------------------------------
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT Token 認證
+
+# 全域安全設定
+security:
+  - BearerAuth: []

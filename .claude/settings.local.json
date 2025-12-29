@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(D:\\sideproject\\.claude**)",
+      "Bash(ps:*)",
+      "Bash(kill:*)",
+      "Bash(awk:*)",
+      "Bash(du:*)",
+      "Bash(dir:*)"
+    ]
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "brave-search",
+    "context7",
+    "github",
+    "playwright"
+  ]
+}
