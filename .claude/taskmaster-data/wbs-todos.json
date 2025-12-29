@@ -4,8 +4,8 @@
   "createdAt": "2025-12-29",
   "updatedAt": "2025-12-29",
   "totalTasks": 15,
-  "completedTasks": 3,
-  "progressPercent": 20,
+  "completedTasks": 4,
+  "progressPercent": 27,
 
   "phases": [
     {
@@ -72,7 +72,7 @@
       "title": "基礎 API 框架與部署環境配置",
       "description": "完成 Python 伺服器框架配置，CI/CD Pipeline 建立",
       "owner": "冠瑋",
-      "status": "pending",
+      "status": "completed",
       "priority": "high",
       "dependencies": [],
       "successCriteria": [

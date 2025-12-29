@@ -1,0 +1,73 @@
+# .github/workflows/deploy-staging.yml
+name: Deploy to Staging
+
+on:
+  push:
+    branches: [develop]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Deployment environment'
+        required: true
+        default: 'staging'
+        type: choice
+        options:
+          - staging
+
+# 防止同時執行多個部署
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: staging
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy notification (start)
+        run: |
+          echo "🚀 Starting deployment to staging..."
+          echo "Commit: ${{ github.sha }}"
+          echo "Branch: ${{ github.ref_name }}"
+
+      # TODO: 實際部署步驟 (根據你的基礎設施配置)
+      # 選項 1: Docker Compose 遠端部署
+      # 選項 2: Kubernetes 部署
+      # 選項 3: 雲端平台 (GCP Cloud Run, AWS ECS, etc.)
+
+      - name: Build and push Docker images
+        run: |
+          echo "📦 Building Docker images..."
+          # docker-compose -f docker-compose.staging.yml build
+          # docker-compose -f docker-compose.staging.yml push
+
+      - name: Deploy to staging server
+        run: |
+          echo "🔄 Deploying to staging..."
+          # SSH 部署範例:
+          # ssh ${{ secrets.STAGING_SSH_USER }}@${{ secrets.STAGING_SSH_HOST }} << 'EOF'
+          #   cd /app/sd-learning-platform
+          #   git pull origin develop
+          #   docker-compose -f docker-compose.staging.yml up -d
+          # EOF
+
+      - name: Health check
+        run: |
+          echo "🏥 Running health check..."
+          # curl -f https://staging.your-domain.com/api/v1/health || exit 1
+
+      - name: Deploy notification (complete)
+        run: |
+          echo "✅ Deployment to staging completed!"
+          echo "URL: https://staging.your-domain.com"
+
+      # 部署失敗通知
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Deployment failed!"
+          # 可以整合 Slack/Discord 通知
