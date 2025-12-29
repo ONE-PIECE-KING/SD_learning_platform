@@ -36,8 +36,24 @@
 
 - Docker & Docker Compose
 - Node.js 20+ (前端開發)
-- Python 3.11+ (後端開發)
+- Python 3.12+ (後端開發)
+- [uv](https://docs.astral.sh/uv/) (推薦的 Python 套件管理工具)
 - Git
+
+### 安裝 uv (推薦)
+
+[uv](https://docs.astral.sh/uv/) 是新一代 Python 套件管理工具，比 pip 快 10-100 倍。
+
+```bash
+# Windows (PowerShell)
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
+
+# macOS / Linux
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 驗證安裝
+uv --version
+```
 
 ### 啟動開發環境
 
@@ -160,16 +176,27 @@ SD_learning_platform/
 # 進入後端目錄
 cd backend
 
-# 建立虛擬環境
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+# 使用 uv 建立虛擬環境 (Python 3.12)
+uv venv --python 3.12 .venv
 
-# 安裝依賴
-pip install -r requirements.txt
+# 啟動虛擬環境
+# Windows:
+.venv\Scripts\activate
+# macOS/Linux:
+source .venv/bin/activate
+
+# 使用 uv 安裝依賴 (比 pip 快 10-100 倍)
+uv pip install -r requirements.txt
 
 # 啟動開發伺服器
 uvicorn main:app --reload --port 8000
 ```
+
+> **注意**：如果沒有安裝 uv，也可以使用傳統方式：
+> ```bash
+> python -m venv .venv
+> pip install -r requirements.txt
+> ```
 
 ### 前端開發
 
@@ -184,17 +211,27 @@ npm install
 npm run dev
 ```
 
-### 資料庫遷移
+### 資料庫遷移 (Alembic)
 
 ```bash
 cd backend
 
-# 建立遷移
-alembic revision --autogenerate -m "描述"
+# 確保虛擬環境已啟動，或使用完整路徑
+
+# 建立遷移 (自動偵測 Model 變更)
+.venv/Scripts/python -m alembic revision --autogenerate -m "描述"
 
 # 執行遷移
-alembic upgrade head
+.venv/Scripts/python -m alembic upgrade head
+
+# 回滾遷移
+.venv/Scripts/python -m alembic downgrade -1
+
+# 查看目前版本
+.venv/Scripts/python -m alembic current
 ```
+
+> 詳細使用說明請參考 [Alembic 使用指南](docs/Alembic_使用指南.md)
 
 ---
 
@@ -229,6 +266,7 @@ docs(readme): 更新安裝說明
 
 - [系統架構設計](docs/MVP_系統架構.md) - 完整技術架構
 - [WBS 開發計劃](docs/MVP_wbs.md) - 任務分解與排程
+- [Alembic 使用指南](docs/Alembic_使用指南.md) - 資料庫遷移操作手冊
 - [CLAUDE.md](CLAUDE.md) - AI 協作開發規範
 - [VibeCoding 範本](VibeCoding_Workflow_Templates/) - 開發流程範本
 
