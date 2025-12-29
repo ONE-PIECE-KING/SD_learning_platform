@@ -1,7 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Read(D:\\sideproject\\.claude**)",
+      "Read(D:\\sideproject\\SD_learning_platform\\.claude**)",
       "Bash(ps:*)",
       "Bash(kill:*)",
       "Bash(awk:*)",

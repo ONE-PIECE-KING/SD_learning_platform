@@ -1,0 +1,337 @@
+{
+  "version": "1.0",
+  "projectId": "sd-learning-platform",
+  "createdAt": "2025-12-29",
+  "updatedAt": "2025-12-29",
+  "totalTasks": 15,
+  "completedTasks": 0,
+  "progressPercent": 0,
+
+  "phases": [
+    {
+      "id": "phase-1",
+      "name": "1.0 環境架設與資料庫建立",
+      "description": "核心任務 1 - 基礎設施",
+      "status": "in_progress",
+      "milestone": "M1"
+    },
+    {
+      "id": "phase-2",
+      "name": "2.0 用戶認證系統",
+      "description": "核心任務 2 - Google SSO",
+      "status": "pending",
+      "milestone": "M2"
+    },
+    {
+      "id": "phase-3",
+      "name": "3.0 課程內容展示",
+      "description": "核心任務 3 - 課程瀏覽與詳情",
+      "status": "pending",
+      "milestone": "M3"
+    },
+    {
+      "id": "phase-4",
+      "name": "4.0 內容管理與上傳",
+      "description": "核心任務 4 - 影片上傳",
+      "status": "pending",
+      "milestone": "M3"
+    },
+    {
+      "id": "phase-5",
+      "name": "5.0 影片串流播放",
+      "description": "核心任務 5 - 播放體驗",
+      "status": "pending",
+      "milestone": "M4"
+    }
+  ],
+
+  "tasks": [
+    {
+      "id": "1.1.B",
+      "phase": "phase-1",
+      "category": "後端",
+      "title": "資料庫 Schema 設計與初始化",
+      "description": "完成 User, Course, Video, Enrollment 表結構，成功在本地端建立實體庫並可連線",
+      "owner": "冠瑋",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": [],
+      "successCriteria": [
+        "完成 User, Course, Video, Enrollment 表結構",
+        "成功在本地端建立實體庫並可連線"
+      ],
+      "files": [
+        "backend/app/models/",
+        "backend/alembic/"
+      ]
+    },
+    {
+      "id": "1.2.B",
+      "phase": "phase-1",
+      "category": "後端",
+      "title": "基礎 API 框架與部署環境配置",
+      "description": "完成 Python 伺服器框架配置，CI/CD Pipeline 建立",
+      "owner": "冠瑋",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": [],
+      "successCriteria": [
+        "完成 Python 伺服器框架配置",
+        "CI/CD Pipeline 建立，推送代碼後自動部署至 Staging 環境"
+      ],
+      "files": [
+        "backend/main.py",
+        "backend/app/core/",
+        "docker-compose.yml"
+      ]
+    },
+    {
+      "id": "1.3.F",
+      "phase": "phase-1",
+      "category": "前端",
+      "title": "前端專案腳手架 (Scaffolding)",
+      "description": "完成 Next.js/React 專案初始化，配置共通 UI 組件庫",
+      "owner": "古古 & Jane",
+      "status": "completed",
+      "priority": "high",
+      "dependencies": [],
+      "successCriteria": [
+        "完成 Next.js/React 專案初始化",
+        "配置共通 UI 組件庫 (Tailwind) 與全域主題設計"
+      ],
+      "files": [
+        "frontend/"
+      ]
+    },
+    {
+      "id": "1.4.F",
+      "phase": "phase-1",
+      "category": "前端",
+      "title": "API 客戶端與環境變數配置",
+      "description": "完成 Axios/Fetch 封裝，建立多環境配置機制",
+      "owner": "古古 & Jane",
+      "status": "completed",
+      "priority": "high",
+      "dependencies": ["1.3.F"],
+      "successCriteria": [
+        "完成 Axios/Fetch 封裝",
+        "建立多環境 (Dev/Prod) 配置機制"
+      ],
+      "files": [
+        "frontend/src/lib/api.ts",
+        "frontend/src/services/"
+      ]
+    },
+    {
+      "id": "2.1.B",
+      "phase": "phase-2",
+      "category": "後端",
+      "title": "Google OAuth2 集成",
+      "description": "成功獲取 Google Profile 並匹配/創建本地資料庫用戶，回傳 JWT Token",
+      "owner": "Celia",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["1.1.B", "1.2.B"],
+      "successCriteria": [
+        "成功獲取 Google Profile 並匹配/創建本地資料庫用戶",
+        "回傳符合安全規範的 JWT Token"
+      ],
+      "files": [
+        "backend/app/api/v1/auth/",
+        "backend/app/services/auth.py"
+      ]
+    },
+    {
+      "id": "2.2.B",
+      "phase": "phase-2",
+      "category": "後端",
+      "title": "權限驗證中間件 (Auth Middleware)",
+      "description": "實現 isLoggedIn 與 isInstructor 角色權限檢查邏輯",
+      "owner": "Celia",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["2.1.B"],
+      "successCriteria": [
+        "實現 isLoggedIn 與 isInstructor 角色權限檢查邏輯"
+      ],
+      "files": [
+        "backend/app/core/deps.py",
+        "backend/app/core/security.py"
+      ]
+    },
+    {
+      "id": "2.3.F",
+      "phase": "phase-2",
+      "category": "前端",
+      "title": "登入頁面與 SSO 按鈕",
+      "description": "串接 Google 登入 SDK，包含異常處理",
+      "owner": "古古 & Jane",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["2.1.B"],
+      "successCriteria": [
+        "串接 Google 登入 SDK，點擊後成功導回平台首頁",
+        "頁面需包含異常處理 (如登入失敗提示)"
+      ],
+      "files": [
+        "frontend/src/app/auth/",
+        "frontend/src/hooks/useAuth.ts"
+      ]
+    },
+    {
+      "id": "3.1.B",
+      "phase": "phase-3",
+      "category": "後端",
+      "title": "課程搜尋與詳情 API",
+      "description": "提供分頁功能的課程列表 API，詳情 API 需包含關聯資料",
+      "owner": "子科",
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["1.1.B"],
+      "successCriteria": [
+        "提供分頁功能的課程列表 API",
+        "詳情 API 需包含關聯的作者與影片 Metadata"
+      ],
+      "files": [
+        "backend/app/api/v1/courses/",
+        "backend/app/services/course.py"
+      ]
+    },
+    {
+      "id": "3.2.F",
+      "phase": "phase-3",
+      "category": "前端",
+      "title": "課程首頁 (Dashboard)",
+      "description": "渲染課程卡片清單，實現 searchbar 的關鍵字搜尋",
+      "owner": "古古 & Jane",
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["3.1.B"],
+      "successCriteria": [
+        "渲染課程卡片清單",
+        "實現 searchbar 的關鍵字搜尋"
+      ],
+      "files": [
+        "frontend/src/app/courses/",
+        "frontend/src/components/CourseCard.tsx"
+      ]
+    },
+    {
+      "id": "3.3.F",
+      "phase": "phase-3",
+      "category": "前端",
+      "title": "詳情分頁與導覽邏輯",
+      "description": "展示課程大綱，點擊影片項目後可正確切換選單狀態",
+      "owner": "古古 & Jane",
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["3.1.B"],
+      "successCriteria": [
+        "展示課程大綱",
+        "點擊影片項目後可正確切換選單狀態"
+      ],
+      "files": [
+        "frontend/src/app/courses/[id]/",
+        "frontend/src/components/CourseSidebar.tsx"
+      ]
+    },
+    {
+      "id": "4.1.B",
+      "phase": "phase-4",
+      "category": "後端",
+      "title": "GCS Signed URL 上傳機制",
+      "description": "生成安全的分段上傳預簽名 URL，監聽轉碼完成事件",
+      "owner": "冠瑋",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["1.1.B"],
+      "successCriteria": [
+        "生成安全的分段上傳預簽名 URL",
+        "監聽轉碼完成事件 (Webhook) 並更新資料庫影片狀態"
+      ],
+      "files": [
+        "backend/app/api/v1/videos/",
+        "backend/app/services/storage.py"
+      ]
+    },
+    {
+      "id": "4.2.B",
+      "phase": "phase-4",
+      "category": "後端",
+      "title": "雲端轉碼 Pipeline (Transcoder)",
+      "description": "自動將原檔轉為 HLS 格式並生成不同解析度",
+      "owner": "冠瑋",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["4.1.B"],
+      "successCriteria": [
+        "自動將原檔轉為 HLS 格式並生成不同解析度 (720p/1080p)"
+      ],
+      "files": [
+        "worker/tasks/video_processing.py"
+      ]
+    },
+    {
+      "id": "4.3.F",
+      "phase": "phase-4",
+      "category": "前端",
+      "title": "影片上傳儀表板",
+      "description": "實現拖拽上傳組件，並具備即時進度百分比顯示",
+      "owner": "古古 & Jane",
+      "status": "pending",
+      "priority": "medium",
+      "dependencies": ["4.1.B"],
+      "successCriteria": [
+        "實現「拖拽上傳」組件",
+        "具備即時進度百分比顯示"
+      ],
+      "files": [
+        "frontend/src/components/VideoUploader.tsx",
+        "frontend/src/app/instructor/"
+      ]
+    },
+    {
+      "id": "5.1.B",
+      "phase": "phase-5",
+      "category": "後端",
+      "title": "影音資源安全 URL 發放",
+      "description": "根據用戶權限發放帶 Token 的 CDN 播放路徑",
+      "owner": "Celia",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["2.2.B", "4.2.B"],
+      "successCriteria": [
+        "根據用戶權限發放帶 Token 的 CDN 播放路徑"
+      ],
+      "files": [
+        "backend/app/api/v1/videos/stream.py",
+        "backend/app/services/video.py"
+      ]
+    },
+    {
+      "id": "5.2.F",
+      "phase": "phase-5",
+      "category": "前端",
+      "title": "HLS 串流播放器整合",
+      "description": "成功在瀏覽器播放 HLS 影片，支援斷點續看功能",
+      "owner": "古古 & Jane",
+      "status": "pending",
+      "priority": "high",
+      "dependencies": ["5.1.B"],
+      "successCriteria": [
+        "成功在瀏覽器播放 HLS 影片",
+        "支援斷點續看功能 (儲存播放進度至後端)"
+      ],
+      "files": [
+        "frontend/src/components/VideoPlayer.tsx",
+        "frontend/src/hooks/useVideoProgress.ts"
+      ]
+    }
+  ],
+
+  "currentFocus": {
+    "taskId": "1.1.B",
+    "phase": "phase-1",
+    "suggestion": "建議先完成資料庫 Schema 設計，這是所有後端功能的基礎"
+  }
+}

@@ -1,0 +1,21 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# 安裝系統依賴 (包含 FFmpeg)
+RUN apt-get update && apt-get install -y \
+    gcc \
+    libpq-dev \
+    ffmpeg \
+    && rm -rf /var/lib/apt/lists/*
+
+# 複製並安裝 Python 依賴
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 複製應用程式碼
+COPY worker/ ./worker/
+COPY backend/ ./backend/
+
+# 啟動命令
+CMD ["celery", "-A", "worker.celery_app", "worker", "--loglevel=info"]

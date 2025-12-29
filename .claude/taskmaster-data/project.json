@@ -1,0 +1,83 @@
+{
+  "projectName": "SD Learning Platform",
+  "projectDescription": "線上學習平台 MVP - 6週內交付核心價值，採用模組化單體架構",
+  "version": "0.1.0",
+  "createdAt": "2025-12-29",
+  "updatedAt": "2025-12-29",
+  "status": "active",
+
+  "taskMasterConfig": {
+    "mode": "MEDIUM",
+    "suggestionFrequency": "SUGGEST_MEDIUM",
+    "autoCommit": false,
+    "humanConfirmationRequired": true
+  },
+
+  "projectType": "fullstack-web",
+  "complexity": "Medium",
+  "estimatedDuration": "6 weeks",
+
+  "techStack": {
+    "frontend": {
+      "framework": "Next.js 14+",
+      "language": "TypeScript",
+      "styling": "Tailwind CSS",
+      "stateManagement": "Zustand"
+    },
+    "backend": {
+      "framework": "FastAPI",
+      "language": "Python 3.11+",
+      "orm": "SQLAlchemy 2.0",
+      "validation": "Pydantic 2"
+    },
+    "database": {
+      "primary": "PostgreSQL 15+",
+      "cache": "Redis 7+"
+    },
+    "storage": {
+      "objectStorage": "MinIO (S3 compatible)"
+    },
+    "infrastructure": {
+      "containerization": "Docker",
+      "reverseProxy": "Nginx",
+      "taskQueue": "Celery"
+    }
+  },
+
+  "team": {
+    "size": "4-6",
+    "roles": [
+      {"name": "冠瑋", "role": "Backend Lead", "modules": ["backend/core", "video-upload"]},
+      {"name": "古古", "role": "Frontend Lead", "modules": ["frontend/core"]},
+      {"name": "Jane", "role": "Frontend Dev", "modules": ["frontend/features"]},
+      {"name": "Celia", "role": "Backend Dev", "modules": ["auth", "security"]},
+      {"name": "子科", "role": "Backend Dev", "modules": ["courses", "search"]}
+    ]
+  },
+
+  "milestones": [
+    {"id": "M1", "name": "環境穩定化", "week": 1, "status": "pending"},
+    {"id": "M2", "name": "認證閉環", "week": 2, "status": "pending"},
+    {"id": "M3", "name": "上傳-播放打通", "week": 4, "status": "pending"},
+    {"id": "M4", "name": "交付版本", "week": 6, "status": "pending"}
+  ],
+
+  "vibecodingTemplates": [
+    "08_project_structure_guide.md",
+    "05_architecture_and_design_document.md",
+    "07_module_specification_and_tests.md",
+    "06_api_design_specification.md",
+    "13_security_and_readiness_checklists.md"
+  ],
+
+  "hubCoordinationStrategy": "hybrid",
+  "availableAgents": [
+    "code-quality-specialist",
+    "security-infrastructure-auditor",
+    "test-automation-engineer",
+    "documentation-specialist",
+    "e2e-validation-specialist",
+    "deployment-operations-engineer",
+    "workflow-template-manager"
+  ]
+}
