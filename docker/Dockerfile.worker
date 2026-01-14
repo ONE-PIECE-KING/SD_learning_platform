@@ -1,0 +1,61 @@
+# ============================================================
+# Learning Platform Worker - Celery Dockerfile
+# ============================================================
+
+# ==================== Development Stage ====================
+FROM python:3.11-slim as development
+
+WORKDIR /app
+
+# 安裝系統依賴 (包含 FFmpeg 用於影片處理)
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    ffmpeg \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安裝 Python 依賴
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 複製 worker 程式碼
+COPY worker/ ./worker/
+COPY backend/app/ ./app/
+
+# 開發環境使用單 worker
+CMD ["celery", "-A", "worker.celery_app", "worker", "--loglevel=info", "--concurrency=2"]
+
+# ==================== Production Stage ====================
+FROM python:3.11-slim as production
+
+WORKDIR /app
+
+# 建立非 root 用戶
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+
+# 安裝系統依賴
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    ffmpeg \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安裝 Python 依賴
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 複製 worker 程式碼
+COPY worker/ ./worker/
+COPY backend/app/ ./app/
+
+# 切換到非 root 用戶
+RUN chown -R appuser:appgroup /app
+USER appuser
+
+# 健康檢查
+HEALTHCHECK --interval=60s --timeout=30s --start-period=10s --retries=3 \
+    CMD celery -A worker.celery_app inspect ping || exit 1
+
+# 生產環境使用多 worker
+CMD ["celery", "-A", "worker.celery_app", "worker", "--loglevel=info", "--concurrency=4"]

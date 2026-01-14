@@ -1,0 +1,62 @@
+# ============================================================
+# Learning Platform Backend - FastAPI Dockerfile
+# ============================================================
+
+# ==================== Development Stage ====================
+FROM python:3.11-slim as development
+
+WORKDIR /app
+
+# 安裝系統依賴
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    ffmpeg \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安裝 Python 依賴
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 複製應用程式碼
+COPY backend/ .
+
+# 開發環境使用 uvicorn with reload
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+
+# ==================== Production Stage ====================
+FROM python:3.11-slim as production
+
+WORKDIR /app
+
+# 建立非 root 用戶
+RUN groupadd -r appgroup && useradd -r -g appgroup appuser
+
+# 安裝系統依賴
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    ffmpeg \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# 安裝 Python 依賴
+COPY backend/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# 複製應用程式碼
+COPY backend/ .
+
+# 切換到非 root 用戶
+RUN chown -R appuser:appgroup /app
+USER appuser
+
+# 暴露端口
+EXPOSE 8000
+
+# 健康檢查
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# 生產環境使用 gunicorn with uvicorn workers
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]

@@ -1,0 +1,72 @@
+# ============================================================
+# Learning Platform Frontend - Vite + React Dockerfile
+# ============================================================
+
+# ==================== Development Stage ====================
+FROM node:20-alpine as development
+
+WORKDIR /app
+
+# 安裝 pnpm (更快的套件管理器)
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# 複製 package files
+COPY frontend/package*.json ./
+COPY frontend/pnpm-lock.yaml* ./
+COPY frontend/bun.lockb* ./
+
+# 安裝依賴
+RUN if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; \
+    elif [ -f bun.lockb ]; then npm install; \
+    else npm install; fi
+
+# 複製原始碼
+COPY frontend/ .
+
+# 暴露 Vite 開發伺服器端口
+EXPOSE 5173
+
+# 開發環境使用 Vite dev server
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
+
+# ==================== Build Stage ====================
+FROM node:20-alpine as builder
+
+WORKDIR /app
+
+# 安裝 pnpm
+RUN corepack enable && corepack prepare pnpm@latest --activate
+
+# 複製 package files
+COPY frontend/package*.json ./
+COPY frontend/pnpm-lock.yaml* ./
+COPY frontend/bun.lockb* ./
+
+# 安裝依賴
+RUN if [ -f pnpm-lock.yaml ]; then pnpm install --frozen-lockfile; \
+    elif [ -f bun.lockb ]; then npm install; \
+    else npm install; fi
+
+# 複製原始碼
+COPY frontend/ .
+
+# 建置生產版本
+RUN npm run build
+
+# ==================== Production Stage ====================
+FROM nginx:1.25-alpine as production
+
+# 複製建置產物
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# 複製 nginx 配置
+COPY nginx/conf.d/frontend.conf /etc/nginx/conf.d/default.conf
+
+# 暴露端口
+EXPOSE 80
+
+# 健康檢查
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost/ || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]

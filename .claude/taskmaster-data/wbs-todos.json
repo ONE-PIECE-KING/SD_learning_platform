@@ -1,0 +1,232 @@
+{
+  "wbs_version": "2.2",
+  "last_updated": "2026-01-14",
+  "phases": [
+    {
+      "id": "1.0",
+      "name": "環境架設與資料庫建立",
+      "description": "核心任務 1 - 基礎設施",
+      "milestone": "M1",
+      "tasks": [
+        {
+          "id": "1.1.B",
+          "name": "資料庫 Schema 設計與初始化",
+          "owner": "冠瑋",
+          "type": "backend",
+          "status": "completed",
+          "success_criteria": [
+            "完成 User, Course, Video, Enrollment 表結構",
+            "成功在本地端建立實體庫並可連線"
+          ],
+          "dependencies": [],
+          "completed_at": "2026-01-14",
+          "notes": "已完成 SQLAlchemy 2.0 Models 實作，包含所有核心資料表"
+        },
+        {
+          "id": "1.2.B",
+          "name": "基礎 API 框架與部署環境配置",
+          "owner": "冠瑋",
+          "type": "backend",
+          "status": "completed",
+          "success_criteria": [
+            "完成 Python 伺服器框架配置",
+            "CI/CD Pipeline 建立，推送代碼後自動部署至 Staging 環境"
+          ],
+          "dependencies": ["1.1.B"],
+          "completed_at": "2026-01-14",
+          "notes": "已完成 FastAPI 路由架構、Pydantic Schemas、錯誤處理、GitHub Actions CI/CD Pipeline"
+        },
+        {
+          "id": "1.3.F",
+          "name": "前端專案腳手架 (Scaffolding)",
+          "owner": "古古 & Jane",
+          "type": "frontend",
+          "status": "completed",
+          "success_criteria": [
+            "完成 Vite + React 專案初始化",
+            "配置共通 UI 組件庫 (Tailwind + shadcn/ui) 與全域主題設計"
+          ],
+          "dependencies": [],
+          "notes": "已完成 - 使用 Vite + React + TypeScript"
+        },
+        {
+          "id": "1.4.F",
+          "name": "API 客戶端與環境變數配置",
+          "owner": "古古 & Jane",
+          "type": "frontend",
+          "status": "pending",
+          "success_criteria": [
+            "完成 Axios/Fetch 封裝，建立多環境 (Dev/Prod) 配置機制"
+          ],
+          "dependencies": ["1.3.F"]
+        }
+      ]
+    },
+    {
+      "id": "2.0",
+      "name": "用戶認證系統",
+      "description": "核心任務 2 - Google SSO 登入",
+      "milestone": "M2",
+      "tasks": [
+        {
+          "id": "2.1.B",
+          "name": "Google OAuth2 集成",
+          "owner": "Celia",
+          "type": "backend",
+          "status": "pending",
+          "success_criteria": [
+            "成功獲取 Google Profile 並匹配/創建本地資料庫用戶",
+            "回傳符合安全規範的 JWT Token"
+          ],
+          "dependencies": ["1.1.B", "1.2.B"]
+        },
+        {
+          "id": "2.2.B",
+          "name": "權限驗證中間件 (Auth Middleware)",
+          "owner": "Celia",
+          "type": "backend",
+          "status": "pending",
+          "success_criteria": [
+            "實現 isLoggedIn 與 isInstructor 角色權限檢查邏輯"
+          ],
+          "dependencies": ["2.1.B"]
+        },
+        {
+          "id": "2.3.F",
+          "name": "登入頁面與 SSO 按鈕",
+          "owner": "古古 & Jane",
+          "type": "frontend",
+          "status": "pending",
+          "success_criteria": [
+            "串接 Google 登入 SDK，點擊後成功導回平台首頁",
+            "頁面需包含異常處理(如登入失敗提示)"
+          ],
+          "dependencies": ["1.3.F", "1.4.F", "2.1.B"]
+        }
+      ]
+    },
+    {
+      "id": "3.0",
+      "name": "課程內容展示",
+      "description": "核心任務 3 - 課程瀏覽/詳情",
+      "milestone": "M3",
+      "tasks": [
+        {
+          "id": "3.1.B",
+          "name": "課程搜尋與詳情 API",
+          "owner": "子科",
+          "type": "backend",
+          "status": "pending",
+          "success_criteria": [
+            "提供分頁功能的課程列表 API",
+            "詳情 API 需包含關聯的作者與影片 Metadata"
+          ],
+          "dependencies": ["1.1.B", "1.2.B"]
+        },
+        {
+          "id": "3.2.F",
+          "name": "課程首頁 (Dashboard)",
+          "owner": "古古 & Jane",
+          "type": "frontend",
+          "status": "pending",
+          "success_criteria": [
+            "渲染課程卡片清單，實現 searchbar 的關鍵字搜尋"
+          ],
+          "dependencies": ["1.3.F", "1.4.F", "3.1.B"]
+        },
+        {
+          "id": "3.3.F",
+          "name": "詳情分頁與導覽邏輯",
+          "owner": "古古 & Jane",
+          "type": "frontend",
+          "status": "pending",
+          "success_criteria": [
+            "展示課程大綱，點擊影片項目後可正確切換選單狀態"
+          ],
+          "dependencies": ["3.2.F"]
+        }
+      ]
+    },
+    {
+      "id": "4.0",
+      "name": "內容管理與上傳",
+      "description": "核心任務 4 - 課程建立/上傳影片",
+      "milestone": "M3",
+      "tasks": [
+        {
+          "id": "4.1.B",
+          "name": "GCS Signed URL 上傳機制",
+          "owner": "冠瑋",
+          "type": "backend",
+          "status": "pending",
+          "success_criteria": [
+            "生成安全的分段上傳預簽名 URL",
+            "監聽轉碼完成事件 (Webhook) 並更新資料庫影片狀態"
+          ],
+          "dependencies": ["1.1.B", "1.2.B"]
+        },
+        {
+          "id": "4.2.B",
+          "name": "雲端轉碼 Pipeline (Transcoder)",
+          "owner": "冠瑋",
+          "type": "backend",
+          "status": "pending",
+          "success_criteria": [
+            "自動將原檔轉為 HLS 格式並生成不同解析度 (720p/1080p)"
+          ],
+          "dependencies": ["4.1.B"]
+        },
+        {
+          "id": "4.3.F",
+          "name": "影片上傳儀表板",
+          "owner": "古古 & Jane",
+          "type": "frontend",
+          "status": "pending",
+          "success_criteria": [
+            "實現拖拽上傳組件，並具備即時進度百分比顯示"
+          ],
+          "dependencies": ["1.3.F", "1.4.F", "4.1.B"]
+        }
+      ]
+    },
+    {
+      "id": "5.0",
+      "name": "影片串流播放",
+      "description": "核心任務 5 - 影片播放功能",
+      "milestone": "M4",
+      "tasks": [
+        {
+          "id": "5.1.B",
+          "name": "影音資源安全 URL 發放",
+          "owner": "Celia",
+          "type": "backend",
+          "status": "pending",
+          "success_criteria": [
+            "根據用戶權限發放帶 Token 的 CDN 播放路徑"
+          ],
+          "dependencies": ["2.2.B", "4.2.B"]
+        },
+        {
+          "id": "5.2.F",
+          "name": "HLS 串流播放器整合",
+          "owner": "古古 & Jane",
+          "type": "frontend",
+          "status": "pending",
+          "success_criteria": [
+            "成功在瀏覽器播放 HLS 影片",
+            "支援斷點續看功能 (儲存播放進度至後端)"
+          ],
+          "dependencies": ["3.3.F", "5.1.B"]
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "total_tasks": 15,
+    "completed": 3,
+    "in_progress": 0,
+    "pending": 12,
+    "backend_tasks": 8,
+    "frontend_tasks": 7
+  }
+}

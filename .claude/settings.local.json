@@ -1,12 +1,13 @@
 {
   "permissions": {
     "allow": [
-      "Read(D:\\sideproject\\.claude**)",
+      "Read(D:\\Learning_platform\\.claude\\**)",
       "Bash(ps:*)",
       "Bash(kill:*)",
       "Bash(awk:*)",
       "Bash(du:*)",
-      "Bash(dir:*)"
+      "Bash(dir:*)",
+      "mcp__brave-search__brave_web_search"
     ]
   },
   "enableAllProjectMcpServers": true,
