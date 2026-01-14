@@ -52,7 +52,7 @@
   },
   "statusLine": {
     "type": "command",
-    "command": "D:\\Learning_platform\\.claude\\statusline-go.exe",
+    "command": "D:\\SD_Learning_platform\\.claude\\statusline-go.exe",
     "padding": 0
   },
   "model": "opus",
@@ -63,7 +63,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "powershell -WindowStyle Hidden -Command \"node D:\\Learning_platform\\.claude\\count_tokens.js"
+            "command": "powershell -WindowStyle Hidden -Command \"node D:\\SD_Learning_platform\\.claude\\count_tokens.js"
           }
         ]
       }

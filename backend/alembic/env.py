@@ -1,6 +1,6 @@
 """
 Alembic Environment Configuration
-支援異步 SQLAlchemy 2.0
+Async SQLAlchemy 2.0 Support
 """
 import asyncio
 from logging.config import fileConfig

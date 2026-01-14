@@ -12,7 +12,6 @@
 | **Cache/Queue** | Redis 7+ |
 | **Storage** | MinIO (S3-compatible) |
 | **Worker** | Celery + FFmpeg |
-| **Proxy** | Nginx |
 | **Container** | Docker Compose |
 
 ## 專案結構
@@ -54,12 +53,6 @@ Learning_platform/
 │   ├── Dockerfile.frontend
 │   └── Dockerfile.worker
 │
-├── nginx/                      # Nginx 反向代理配置
-│   ├── nginx.conf
-│   └── conf.d/
-│       ├── default.conf       # API/Media/Frontend 路由
-│       └── frontend.conf      # 靜態檔案服務
-│
 ├── scripts/
 │   └── db/
 │       └── init.sql           # 資料庫初始化
@@ -67,6 +60,7 @@ Learning_platform/
 ├── docs/                       # 專案文檔
 │   ├── MVP_wbs.md             # 工作分解結構
 │   ├── MVP_系統架構.md         # 系統架構設計
+│   ├── Database_Migration_Guide.md  # 資料庫遷移指南
 │   └── Project_Brief_and_PRD.md
 │
 ├── docker-compose.yml          # 開發環境
@@ -74,47 +68,140 @@ Learning_platform/
 └── .env.example               # 環境變數範本
 ```
 
-## 快速開始
+---
+
+## 完整建置步驟
 
 ### 前置需求
 
-- Docker Desktop 4.0+
-- Node.js 20+ (本地開發)
-- Python 3.11+ (本地開發)
+| 工具 | 版本 | 說明 |
+|------|------|------|
+| Docker Desktop | 4.0+ | 容器化服務 |
+| Python | 3.11+ | 後端開發 |
+| Node.js | 20+ | 前端開發 |
+| uv (建議) | 最新 | Python 套件管理 (比 pip 快) |
 
-### 1. 環境設定
+### Step 1: 複製專案
+
+```bash
+git clone <repository-url>
+cd SD_learning_platform
+```
+
+### Step 2: 環境變數設定
 
 ```bash
 # 複製環境變數範本
 cp .env.example .env
 
-# 編輯 .env 填入必要設定
-# - POSTGRES_PASSWORD
-# - SECRET_KEY
-# - MINIO_ROOT_PASSWORD
+# 編輯 .env (可選，開發環境用預設值即可)
 ```
 
-### 2. 啟動開發環境
+開發環境預設值：
+- PostgreSQL: `postgres:postgres@localhost:5432`
+- Redis: `localhost:6379`
+- MinIO: `minioadmin:minioadmin@localhost:9000`
+
+### Step 3: 啟動 Docker 容器
 
 ```bash
-# 啟動所有服務 (PostgreSQL, Redis, MinIO, Backend, Frontend, Worker)
-docker-compose up -d
+# 啟動基礎服務 (PostgreSQL, Redis, MinIO)
+docker-compose up -d postgres redis minio
 
-# 查看服務狀態
+# 確認容器狀態
 docker-compose ps
 
-# 查看日誌
-docker-compose logs -f backend
+# 預期輸出:
+# learning_platform_postgres   running   0.0.0.0:5432->5432/tcp
+# learning_platform_redis      running   0.0.0.0:6379->6379/tcp
+# learning_platform_minio      running   0.0.0.0:9000-9001->9000-9001/tcp
 ```
 
-### 3. 資料庫遷移
+### Step 4: 建立 Python 虛擬環境
 
 ```bash
-# 進入 backend 容器執行遷移
-docker-compose exec backend alembic upgrade head
+# 使用 uv (推薦)
+uv venv .venv
+.venv\Scripts\activate    # Windows
+source .venv/bin/activate # Linux/Mac
+
+# 或使用 venv
+python -m venv .venv
+.venv\Scripts\activate    # Windows
+source .venv/bin/activate # Linux/Mac
 ```
 
-### 4. 存取服務
+### Step 5: 安裝 Backend 依賴
+
+```bash
+cd backend
+
+# 使用 uv (推薦)
+uv pip install -r requirements.txt
+
+# 或使用 pip
+pip install -r requirements.txt
+```
+
+### Step 6: 設定 Backend 環境變數
+
+```bash
+# 複製範本
+cp .env.example .env
+
+# 確認 DATABASE_URL 設定 (Windows 需加 ssl=disable)
+# DATABASE_URL="postgresql+asyncpg://postgres:postgres@localhost:5432/learning_platform?ssl=disable"
+```
+
+### Step 7: 資料庫遷移
+
+```bash
+cd backend
+
+# Windows 可能需要設定 UTF-8
+set PYTHONUTF8=1
+
+# 生成 migration (首次)
+alembic revision --autogenerate -m "initial_schema"
+
+# 執行 migration
+alembic upgrade head
+
+# 驗證資料表已建立
+docker exec -it learning_platform_postgres psql -U postgres -d learning_platform -c "\dt"
+```
+
+### Step 8: 啟動 Backend 服務
+
+```bash
+cd backend
+
+# 開發模式 (hot reload)
+uvicorn main:app --reload --host 0.0.0.0 --port 8000
+
+# 或
+python main.py
+```
+
+### Step 9: 安裝 Frontend 依賴
+
+```bash
+cd frontend
+
+npm install
+```
+
+### Step 10: 啟動 Frontend 服務
+
+```bash
+cd frontend
+
+npm run dev
+```
+
+---
+
+## 服務存取
 
 | 服務 | URL | 說明 |
 |------|-----|------|
@@ -123,58 +210,62 @@ docker-compose exec backend alembic upgrade head
 | API Docs | http://localhost:8000/docs | Swagger UI |
 | MinIO Console | http://localhost:9001 | 物件儲存管理 |
 | PgAdmin | http://localhost:5050 | 資料庫管理 (需啟用 tools profile) |
+| Redis Commander | http://localhost:8081 | Redis 管理 (需啟用 tools profile) |
 
-### 5. 啟動管理工具 (可選)
+### 啟動管理工具 (可選)
 
 ```bash
-# 啟動 PgAdmin
-docker-compose --profile tools up -d pgadmin
+docker-compose --profile tools up -d
 ```
 
-## 開發指令
+---
+
+## 開發指令速查
 
 ### Docker Compose
 
 ```bash
-# 啟動服務
-docker-compose up -d
+# 啟動基礎服務
+docker-compose up -d postgres redis minio
+
+# 啟動全部服務 (含 backend, frontend, worker)
+docker-compose --profile full up -d
 
 # 停止服務
 docker-compose down
 
-# 重建特定服務
-docker-compose up -d --build backend
-
-# 清除所有資料 (含 volumes)
+# 停止並清除資料
 docker-compose down -v
+
+# 查看日誌
+docker-compose logs -f postgres
 ```
 
-### Backend 開發
+### Backend
 
 ```bash
-# 本地安裝依賴
 cd backend
-pip install -r requirements.txt
 
-# 本地執行 (需要 .env 配置)
+# 啟動開發伺服器
 uvicorn main:app --reload --host 0.0.0.0 --port 8000
 
 # 執行測試
 pytest
 
-# 建立新的資料庫遷移
+# 資料庫遷移
 alembic revision --autogenerate -m "description"
-
-# 執行遷移
 alembic upgrade head
+alembic downgrade -1
+
+# 查看遷移狀態
+alembic current
+alembic history
 ```
 
-### Frontend 開發
+### Frontend
 
 ```bash
-# 安裝依賴
 cd frontend
-npm install
 
 # 開發伺服器
 npm run dev
@@ -189,17 +280,7 @@ npm run type-check
 npm run lint
 ```
 
-## 生產部署
-
-```bash
-# 使用生產配置啟動
-docker-compose -f docker-compose.prod.yml up -d
-
-# 生產環境包含:
-# - Nginx 反向代理
-# - 前端靜態檔案服務
-# - 優化的資源配置
-```
+---
 
 ## 資料庫模型
 
@@ -217,6 +298,8 @@ Users (用戶)
 │   └── VideoProgress (觀看進度)
 └── AuditLogs (操作日誌)
 ```
+
+---
 
 ## API 端點
 
@@ -241,27 +324,64 @@ Users (用戶)
 - `POST /api/v1/orders/{id}/pay` - 付款
 - `GET /api/v1/orders` - 訂單列表
 
+---
+
 ## 環境變數
 
 | 變數 | 說明 | 預設值 |
 |------|------|--------|
-| `POSTGRES_USER` | 資料庫使用者 | learning_admin |
-| `POSTGRES_PASSWORD` | 資料庫密碼 | (必填) |
+| `POSTGRES_USER` | 資料庫使用者 | postgres |
+| `POSTGRES_PASSWORD` | 資料庫密碼 | postgres |
 | `POSTGRES_DB` | 資料庫名稱 | learning_platform |
-| `REDIS_HOST` | Redis 主機 | redis |
-| `MINIO_ROOT_USER` | MinIO 使用者 | minioadmin |
-| `MINIO_ROOT_PASSWORD` | MinIO 密碼 | (必填) |
-| `SECRET_KEY` | JWT 密鑰 | (必填) |
+| `REDIS_URL` | Redis 連線 | redis://localhost:6379/0 |
+| `MINIO_ACCESS_KEY` | MinIO 使用者 | minioadmin |
+| `MINIO_SECRET_KEY` | MinIO 密碼 | minioadmin |
+| `SECRET_KEY` | JWT 密鑰 | (生產環境必填) |
 
 完整環境變數請參考 `.env.example`
 
 ---
 
+## 常見問題
+
+### Windows 編碼問題
+
+執行 alembic 時出現 `UnicodeDecodeError`：
+
+```bash
+set PYTHONUTF8=1
+alembic revision --autogenerate -m "migration_name"
+```
+
+### 資料庫連線失敗
+
+```bash
+# 確認容器執行中
+docker-compose ps
+
+# 重啟 PostgreSQL
+docker-compose restart postgres
+```
+
+### SSL 錯誤
+
+在 `backend/.env` 的 DATABASE_URL 加上 `?ssl=disable`
+
+---
+
+## 相關文件
+
+- [專案簡報與 PRD](./docs/Project_Brief_and_PRD.md)
+- [MVP WBS 開發計劃](./docs/MVP_wbs.md)
+- [MVP 系統架構文件](./docs/MVP_系統架構.md)
+- [資料庫遷移指南](./docs/Database_Migration_Guide.md)
+- [影片串流架構](./docs/Video_Streaming_Architecture.md)
+
+---
+
 ## TaskMaster 開發協作
 
-本專案整合 TaskMaster 智能協作系統，提供以下功能：
-
-### 核心命令
+本專案整合 TaskMaster 智能協作系統：
 
 | 命令 | 功能 |
 |------|------|
@@ -270,8 +390,7 @@ Users (用戶)
 | `/hub-delegate` | 委派任務給專業智能體 |
 | `/review-code` | 程式碼審查 |
 
-### 專案配置
-
+專案配置：
 - 專案資料: `.claude/taskmaster-data/project.json`
 - WBS 任務: `.claude/taskmaster-data/wbs-todos.json`
 - 專案規範: `CLAUDE.md`
