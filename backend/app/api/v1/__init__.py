@@ -5,6 +5,7 @@ API v1 Router Module
 from fastapi import APIRouter
 
 from app.api.v1 import auth, users, courses, videos, enrollments, health
+from app.payment.router import router as payment_router
 
 # Create main API router
 api_router = APIRouter()
@@ -16,3 +17,4 @@ api_router.include_router(users.router, prefix="/users", tags=["Users"])
 api_router.include_router(courses.router, prefix="/courses", tags=["Courses"])
 api_router.include_router(videos.router, prefix="/videos", tags=["Videos"])
 api_router.include_router(enrollments.router, prefix="/enrollments", tags=["Enrollments"])
+api_router.include_router(payment_router, prefix="/payments", tags=["Payments"])

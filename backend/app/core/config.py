@@ -19,11 +19,11 @@ class Settings(BaseSettings):
     # Application
     APP_NAME: str = "Learning Platform API"
     APP_VERSION: str = "1.0.0"
-    DEBUG: bool = False
+    DEBUG: bool = True
     API_V1_PREFIX: str = "/api/v1"
 
-    # Database
-    DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@localhost:5432/learning_platform"
+    # Database (預設使用 SQLite 進行本地測試)
+    DATABASE_URL: str = "sqlite+aiosqlite:///./test.db"
     DATABASE_ECHO: bool = False
 
     # Redis
@@ -46,6 +46,16 @@ class Settings(BaseSettings):
     MINIO_SECRET_KEY: str = "minioadmin"
     MINIO_BUCKET_NAME: str = "learning-platform"
     MINIO_SECURE: bool = False
+
+    # ECPay Payment Gateway (測試環境)
+    ECPAY_MERCHANT_ID: str = "3002607"
+    ECPAY_HASH_KEY: str = "pwFHCqoQZGmho4w6"
+    ECPAY_HASH_IV: str = "EkRm7iFT261dpevs"
+    ECPAY_AIO_CHECKOUT_URL: str = "https://payment-stage.ecpay.com.tw/Cashier/AioCheckOut/V5"
+    ECPAY_QUERY_TRADE_URL: str = "https://payment-stage.ecpay.com.tw/Cashier/QueryTradeInfo/V5"
+    ECPAY_CREDIT_ACTION_URL: str = "https://payment-stage.ecpay.com.tw/CreditDetail/DoAction"
+    ECPAY_CALLBACK_URL: str = "http://localhost:8000/api/v1/payments/callback"
+    ECPAY_RETURN_URL: str = "http://localhost:8000/api/v1/payments/return"
 
     # CORS
     CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:5173"]
