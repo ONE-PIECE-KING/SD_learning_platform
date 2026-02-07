@@ -347,3 +347,5 @@ local.*
 cache/
 
 .mcp.json
+#搜尋測試
+API搜尋.md

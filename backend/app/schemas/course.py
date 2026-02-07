@@ -48,7 +48,7 @@ class CourseBase(BaseSchema):
     subtitle: Optional[str] = Field(None, max_length=300)
     description: Optional[str] = None
     category: Optional[str] = None
-    price: Decimal = Field(..., ge=0, decimal_places=2)
+    price: Decimal = Field(..., ge=0)
     is_free: bool = False
 
 
@@ -69,7 +69,7 @@ class CourseUpdateRequest(BaseSchema):
     subtitle: Optional[str] = Field(None, max_length=300)
     description: Optional[str] = None
     category: Optional[str] = None
-    price: Optional[Decimal] = Field(None, ge=0, decimal_places=2)
+    price: Optional[Decimal] = Field(None, ge=0)
     is_free: Optional[bool] = None
     thumbnail_url: Optional[str] = None
 
@@ -77,7 +77,7 @@ class CourseUpdateRequest(BaseSchema):
 class CourseResponse(CourseBase):
     """課程回應"""
     id: UUID
-    instructor_id: UUID
+    creator_id: UUID
     status: str = Field(..., examples=["draft", "pending_review", "published", "archived"])
     thumbnail_url: Optional[str] = None
     total_duration: int = 0  # 秒

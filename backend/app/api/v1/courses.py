@@ -33,10 +33,13 @@ async def list_courses(
     獲取課程列表
     支援分頁、分類篩選、關鍵字搜尋
     """
-    # TODO: Implement course listing
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="Course listing not implemented yet",
+    from app.services.course import CourseService
+    service = CourseService(db)
+    return await service.get_courses(
+        skip=skip, 
+        limit=limit, 
+        search=search, 
+        category=category
     )
 
 

@@ -4,6 +4,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
+import Courses from "./pages/Courses";
 import NotFound from "./pages/NotFound";
 import { MemberLayout } from "./layouts/MemberLayout";
 
@@ -29,7 +30,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          
+          <Route path="/courses" element={<Courses />} />
+
           {/* Member Routes (supports both student and teacher) */}
           <Route path="/member" element={<MemberLayout />}>
             {/* Shared routes */}
@@ -40,7 +42,7 @@ const App = () => (
             <Route path="settings" element={<MemberSettings />} />
             <Route path="profile" element={<MemberProfile />} />
             <Route path="resources" element={<MemberResources />} />
-            
+
             {/* Teacher-only routes */}
             <Route path="course-upload" element={<CourseUpload />} />
             <Route path="statistics" element={<Statistics />} />
@@ -49,7 +51,7 @@ const App = () => (
 
           {/* Redirect old student routes to member routes */}
           <Route path="/student/*" element={<Navigate to="/member/my-courses" replace />} />
-          
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
