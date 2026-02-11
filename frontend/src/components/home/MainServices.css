@@ -1,0 +1,91 @@
+/* ========================================
+   Main Services（主要服務）
+   ======================================== */
+
+.main-services {
+    padding: var(--space-3xl) 0;
+    background: var(--bg-alt);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+}
+
+.service-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--card-backdrop);
+    padding: var(--space-xl);
+    transition: all var(--transition-normal);
+    cursor: pointer;
+}
+
+.service-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-4px);
+}
+
+[data-theme="dark"] .service-card:hover {
+    border-color: var(--border-hover);
+}
+
+.service-card-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-md);
+    background: var(--primary-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-md);
+    color: var(--primary);
+}
+
+.service-card-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-xs);
+}
+
+.service-card-desc {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+}
+
+.service-card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--primary);
+    transition: gap var(--transition-fast);
+    cursor: pointer;
+}
+
+.service-card-link:hover {
+    gap: 8px;
+}
+
+.services-cta {
+    text-align: center;
+}
+
+/* 響應式 */
+@media (max-width: 767px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .service-card {
+        padding: var(--space-lg);
+    }
+}

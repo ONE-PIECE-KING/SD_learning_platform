@@ -1,0 +1,339 @@
+/* ========================================
+   Legal Page — 法律資訊頁面
+   ======================================== */
+
+.legal-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.legal-page main {
+    flex: 1;
+    padding-top: var(--header-height-desktop);
+}
+
+/* ─── Hero ─── */
+.legal-hero {
+    background: var(--bg-alt);
+    padding: var(--space-xl) 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.legal-hero-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}
+
+.legal-hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 6px;
+}
+
+.legal-hero-updated {
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* ─── Tab 導覽（Desktop 水平 / Mobile 標籤） ─── */
+.legal-tabs {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+    display: flex;
+    gap: var(--space-md);
+    border-bottom: 2px solid var(--border);
+}
+
+.legal-tab {
+    padding: var(--space-sm) 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.legal-tab:hover {
+    color: var(--text-primary);
+}
+
+.legal-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    font-weight: 600;
+}
+
+/* ─── 主體佈局 ─── */
+.legal-body {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-md);
+    display: grid;
+    grid-template-columns: 1fr 240px;
+    gap: var(--space-xl);
+    align-items: start;
+}
+
+/* ─── 內文 ─── */
+.legal-content {
+    max-width: 800px;
+}
+
+.legal-content h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: var(--space-xl) 0 var(--space-sm);
+    padding-top: var(--space-sm);
+    scroll-margin-top: calc(var(--header-height-desktop) + 20px);
+}
+
+.legal-content h2:first-child {
+    margin-top: 0;
+}
+
+.legal-content h3 {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: var(--space-md) 0 var(--space-xs);
+}
+
+.legal-content p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin: 0 0 var(--space-sm);
+}
+
+.legal-content ul,
+.legal-content ol {
+    padding-left: 24px;
+    margin: 0 0 var(--space-sm);
+}
+
+.legal-content li {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 4px;
+}
+
+.legal-content li strong {
+    color: var(--text-primary);
+}
+
+/* 表格 */
+.legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--space-sm) 0 var(--space-md);
+    font-size: 14px;
+}
+
+.legal-table th,
+.legal-table td {
+    padding: 10px 14px;
+    text-align: left;
+    border: 1px solid var(--border);
+}
+
+.legal-table th {
+    background: var(--bg-alt);
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.legal-table td {
+    color: var(--text-secondary);
+}
+
+/* 強調區塊 */
+.legal-highlight {
+    background: var(--primary-dim);
+    border-left: 4px solid var(--primary);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+    margin: var(--space-md) 0;
+}
+
+.legal-highlight p {
+    margin: 0;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+/* ─── 右側 TOC ─── */
+.legal-toc {
+    position: sticky;
+    top: calc(var(--header-height-desktop) + var(--space-md));
+}
+
+.legal-toc-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 var(--space-sm);
+}
+
+.legal-toc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.legal-toc-item {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 6px 12px;
+    border-left: 2px solid var(--border);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    text-decoration: none;
+    display: block;
+}
+
+.legal-toc-item:hover {
+    color: var(--primary);
+    border-left-color: var(--primary);
+}
+
+.legal-toc-item.active {
+    color: var(--primary);
+    border-left-color: var(--primary);
+    font-weight: 600;
+}
+
+/* ─── 列印按鈕 ─── */
+.legal-actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.legal-print-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.legal-print-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* ─── 底部聯絡 ─── */
+.legal-contact {
+    margin-top: var(--space-xl);
+    padding: var(--space-lg);
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    text-align: center;
+}
+
+.legal-contact h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 8px;
+}
+
+.legal-contact p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin: 0 0 var(--space-sm);
+}
+
+.legal-contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--primary);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition: background var(--transition-fast);
+}
+
+.legal-contact-link:hover {
+    background: var(--primary-hover);
+}
+
+/* ─── 響應式 ─── */
+@media (max-width: 1023px) {
+    .legal-body {
+        grid-template-columns: 1fr;
+    }
+
+    .legal-toc {
+        display: none;
+    }
+}
+
+@media (max-width: 767px) {
+    .legal-page main {
+        padding-top: var(--header-height-mobile);
+    }
+
+    .legal-hero h1 {
+        font-size: 24px;
+    }
+
+    .legal-tabs {
+        overflow-x: auto;
+    }
+
+    .legal-content h2 {
+        font-size: 19px;
+        scroll-margin-top: calc(var(--header-height-mobile) + 20px);
+    }
+}
+
+/* 列印樣式 */
+@media print {
+
+    .legal-page header,
+    .legal-page footer,
+    .legal-tabs,
+    .legal-toc,
+    .legal-actions,
+    .legal-contact {
+        display: none !important;
+    }
+
+    .legal-body {
+        grid-template-columns: 1fr;
+    }
+
+    .legal-content {
+        max-width: 100%;
+    }
+}

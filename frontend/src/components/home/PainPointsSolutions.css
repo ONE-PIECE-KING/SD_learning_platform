@@ -1,0 +1,126 @@
+/* ========================================
+   Pain Points & Solutions（痛點與解決方案）
+   ======================================== */
+
+.pain-solutions {
+    padding: var(--space-3xl) 0;
+    background: var(--bg);
+}
+
+/* 痛點區 */
+.pain-section {
+    margin-bottom: var(--space-3xl);
+}
+
+.pain-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+}
+
+.pain-card {
+    display: flex;
+    gap: var(--space-sm);
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    transition: all var(--transition-normal);
+}
+
+.pain-card:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+}
+
+.pain-card-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    background: var(--primary-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+}
+
+.pain-card-content {
+    flex: 1;
+}
+
+.pain-card-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.pain-card-desc {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* 解決方案區 */
+.solution-section {
+    position: relative;
+}
+
+.solution-content {
+    max-width: 720px;
+    margin: 0 auto;
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--card-backdrop);
+    padding: var(--space-xl);
+}
+
+[data-theme="dark"] .solution-content {
+    border: 1px solid var(--border-accent);
+}
+
+.solution-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.solution-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-primary);
+}
+
+.solution-item-icon {
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-top: 2px;
+}
+
+/* 響應式 */
+@media (max-width: 767px) {
+    .pain-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pain-card {
+        padding: var(--space-md);
+    }
+
+    .solution-content {
+        padding: var(--space-lg);
+    }
+}

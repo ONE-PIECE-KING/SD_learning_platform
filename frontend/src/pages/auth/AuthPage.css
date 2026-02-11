@@ -1,0 +1,443 @@
+/* ========================================
+   Auth Pages — 登入 / 註冊 共用樣式
+   ======================================== */
+
+.auth-page {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-xl) var(--space-sm);
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+}
+
+/* 背景裝飾 */
+.auth-bg-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+.auth-bg-glow--1 {
+    background: radial-gradient(circle, rgba(44, 145, 140, 0.15) 0%, transparent 70%);
+    top: -200px;
+    right: -200px;
+}
+
+.auth-bg-glow--2 {
+    background: radial-gradient(circle, rgba(44, 145, 140, 0.1) 0%, transparent 70%);
+    bottom: -200px;
+    left: -200px;
+}
+
+/* 卡片容器 */
+.auth-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 460px;
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--card-backdrop);
+    padding: var(--space-xl);
+}
+
+[data-theme="dark"] .auth-card {
+    border: 1px solid var(--border-accent);
+}
+
+/* Logo 區 */
+.auth-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-lg);
+    text-decoration: none;
+    color: var(--text-primary);
+}
+
+.auth-logo svg {
+    color: var(--primary);
+}
+
+.auth-logo span {
+    font-size: 22px;
+    font-weight: 700;
+    font-family: var(--font-primary);
+}
+
+/* 標題 */
+.auth-title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.auth-subtitle {
+    text-align: center;
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-lg);
+}
+
+/* 表單 */
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+/* 輸入群組 */
+.auth-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.auth-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.auth-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.auth-input-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-muted);
+    pointer-events: none;
+}
+
+.auth-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 14px 0 42px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 15px;
+    font-family: var(--font-primary);
+    transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+    outline: none;
+}
+
+.auth-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(44, 145, 140, 0.15);
+}
+
+.auth-input.error {
+    border-color: var(--error);
+}
+
+.auth-input.error:focus {
+    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.auth-password-toggle {
+    position: absolute;
+    right: 14px;
+    color: var(--text-muted);
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color var(--transition-fast);
+}
+
+.auth-password-toggle:hover {
+    color: var(--text-primary);
+}
+
+/* 錯誤訊息 */
+.auth-error {
+    font-size: 13px;
+    color: var(--error);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* 記住我 & 忘記密碼 */
+.auth-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.auth-checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    cursor: pointer;
+}
+
+.auth-checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+.auth-forgot-link {
+    color: var(--primary);
+    font-weight: 500;
+    text-decoration: none;
+    transition: opacity var(--transition-fast);
+}
+
+.auth-forgot-link:hover {
+    opacity: 0.8;
+}
+
+/* 條款 Checkbox */
+.auth-terms-label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+.auth-terms-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+.auth-terms-label a {
+    color: var(--primary);
+    text-decoration: underline;
+}
+
+/* 提交按鈕 */
+.auth-submit {
+    width: 100%;
+    height: 48px;
+    padding: 0 var(--space-md);
+    font-size: 16px;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    color: #fff;
+    background: var(--primary);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-xs);
+}
+
+.auth-submit:hover:not(:disabled) {
+    background: var(--primary-hover);
+    transform: translateY(-1px);
+}
+
+.auth-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Loading 動畫 */
+.auth-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: auth-spin 0.6s linear infinite;
+}
+
+@keyframes auth-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* 分隔線 */
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin: var(--space-md) 0;
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+}
+
+/* 第三方登入 */
+.auth-oauth-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.auth-oauth-btn {
+    width: 100%;
+    height: 48px;
+    padding: 0 var(--space-md);
+    font-size: 15px;
+    font-weight: 500;
+    font-family: var(--font-primary);
+    color: var(--text-primary);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+}
+
+.auth-oauth-btn:hover {
+    border-color: var(--border-accent);
+    background: var(--bg-alt);
+}
+
+.auth-oauth-btn svg {
+    flex-shrink: 0;
+}
+
+/* 底部切換連結 */
+.auth-switch {
+    text-align: center;
+    margin-top: var(--space-lg);
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.auth-switch a {
+    color: var(--primary);
+    font-weight: 600;
+    text-decoration: none;
+    margin-left: 4px;
+}
+
+.auth-switch a:hover {
+    text-decoration: underline;
+}
+
+/* Toast 錯誤訊息 */
+.auth-toast {
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-sm);
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    color: var(--error);
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    animation: auth-toast-in 0.3s ease;
+}
+
+@keyframes auth-toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 密碼強度 */
+.password-strength {
+    display: flex;
+    gap: 4px;
+    margin-top: 4px;
+}
+
+.password-strength-bar {
+    flex: 1;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border);
+    transition: background var(--transition-fast);
+}
+
+.password-strength-bar.active.weak {
+    background: var(--error);
+}
+
+.password-strength-bar.active.fair {
+    background: var(--warning);
+}
+
+.password-strength-bar.active.strong {
+    background: var(--success);
+}
+
+.password-strength-text {
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.password-strength-text.weak {
+    color: var(--error);
+}
+
+.password-strength-text.fair {
+    color: var(--warning);
+}
+
+.password-strength-text.strong {
+    color: var(--success);
+}
+
+/* 響應式 */
+@media (max-width: 767px) {
+    .auth-page {
+        padding: var(--space-md) var(--space-sm);
+        align-items: flex-start;
+        padding-top: var(--space-3xl);
+    }
+
+    .auth-card {
+        padding: var(--space-lg);
+    }
+
+    .auth-title {
+        font-size: 24px;
+    }
+}

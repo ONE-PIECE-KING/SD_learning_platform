@@ -1,0 +1,209 @@
+/* ========================================
+   Course Card — 課程卡片（參考進階卡片設計）
+   深色圓角卡片、大縮圖區、右上角標籤、
+   標題 + 描述 + 統計行、底部價格 + 箭頭按鈕
+   ======================================== */
+
+.course-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--border-hover);
+}
+
+/* ─── 縮圖區 ─── */
+.course-card-thumb {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.course-card-thumb-bg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.course-card-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform var(--transition-slow);
+}
+
+.course-card:hover .course-card-thumb img,
+.course-card:hover .course-card-thumb-bg {
+    transform: scale(1.03);
+    transition: transform var(--transition-slow);
+}
+
+/* 右上角標籤（熱銷推薦 / 獨家課程） */
+.course-card-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 12px;
+    border-radius: var(--radius-full);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    backdrop-filter: blur(8px);
+    z-index: 2;
+}
+
+.course-card-badge.hot {
+    background: rgba(239, 68, 68, 0.85);
+    color: #fff;
+}
+
+.course-card-badge.exclusive {
+    background: rgba(245, 158, 11, 0.85);
+    color: #fff;
+}
+
+.course-card-badge-icon {
+    display: flex;
+    align-items: center;
+}
+
+/* ─── 內容區 ─── */
+.course-card-body {
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    flex: 1;
+}
+
+.course-card-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+}
+
+.course-card-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 0;
+}
+
+/* ─── 統計行（時數 / 人數 / 星等） ─── */
+.course-card-stats {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: auto;
+    padding-top: var(--space-xs);
+}
+
+.course-card-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
+}
+
+.course-card-stat-rating {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    color: var(--secondary);
+    font-weight: 600;
+}
+
+.course-card-stat-rating .star-icon {
+    color: var(--secondary);
+}
+
+/* ─── 底部（價格 + 箭頭按鈕） ─── */
+.course-card-footer {
+    padding: var(--space-md) var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border);
+    margin-top: auto;
+}
+
+.course-card-price {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.course-card-price-current {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.course-card-price-current.has-discount {
+    color: var(--error);
+}
+
+.course-card-price-original {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+.course-card-price-free {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--success);
+}
+
+/* 箭頭按鈕 */
+.course-card-arrow {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+.course-card-arrow:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-dim);
+}

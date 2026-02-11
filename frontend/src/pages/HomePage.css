@@ -1,0 +1,13 @@
+/* ========================================
+   HomePage 頁面樣式
+   ======================================== */
+
+.homepage {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.homepage main {
+    flex: 1;
+}

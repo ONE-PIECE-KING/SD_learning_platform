@@ -1,0 +1,818 @@
+/* ========================================
+   Course Detail Page — 課程詳細頁面
+   ======================================== */
+
+.course-detail-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.course-detail-page main {
+    flex: 1;
+    padding-top: var(--header-height-desktop);
+}
+
+/* ─── Hero Section ─── */
+.cd-hero {
+    background: var(--bg-alt);
+    padding: var(--space-xl) 0 var(--space-2xl);
+    border-bottom: 1px solid var(--border);
+}
+
+.cd-hero-inner {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+}
+
+/* 麵包屑 */
+.cd-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    margin-bottom: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.cd-breadcrumb a {
+    color: var(--primary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+}
+
+.cd-breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.cd-breadcrumb-sep {
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.cd-breadcrumb-current {
+    color: var(--text-primary);
+}
+
+/* Hero 內容佈局 */
+.cd-hero-content {
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    gap: var(--space-xl);
+    align-items: start;
+}
+
+/* 左側資訊 */
+.cd-hero-info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.cd-category-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    background: var(--primary-dim);
+    color: var(--primary);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    width: fit-content;
+}
+
+.cd-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.3;
+    margin: 0;
+}
+
+.cd-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin: 0;
+}
+
+.cd-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.cd-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 600;
+    color: var(--warning);
+}
+
+.cd-rating-stars {
+    display: flex;
+    gap: 2px;
+}
+
+.cd-rating-count {
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+.cd-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.cd-instructor-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.cd-instructor-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+/* 右側預覽窗 */
+.cd-preview {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    position: relative;
+}
+
+.cd-preview-bg {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cd-preview-play {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+.cd-preview-play:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.cd-preview-play-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* ─── 主要內容佈局 ─── */
+.cd-body {
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: var(--space-xl) var(--space-md);
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: var(--space-xl);
+    align-items: start;
+}
+
+/* ─── 分頁切換（Tab） ─── */
+.cd-tabs {
+    display: flex;
+    gap: var(--space-md);
+    border-bottom: 2px solid var(--border);
+    margin-bottom: var(--space-lg);
+    overflow-x: auto;
+}
+
+.cd-tab {
+    padding: var(--space-sm) 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.cd-tab:hover {
+    color: var(--text-primary);
+}
+
+.cd-tab.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+    font-weight: 600;
+}
+
+/* ─── 課程簡介 ─── */
+.cd-about h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-sm);
+}
+
+.cd-about p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 0 0 var(--space-md);
+}
+
+.cd-goals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-lg);
+}
+
+.cd-goal-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-primary);
+    line-height: 1.5;
+}
+
+.cd-goal-icon {
+    flex-shrink: 0;
+    color: var(--success);
+    margin-top: 2px;
+}
+
+/* ─── 課程大綱（手風琴） ─── */
+.cd-curriculum-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-sm);
+}
+
+.cd-curriculum-header h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.cd-curriculum-stats {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.cd-section {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-xs);
+    overflow: hidden;
+}
+
+.cd-section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm) var(--space-md);
+    background: var(--bg-alt);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+    user-select: none;
+}
+
+.cd-section-header:hover {
+    background: var(--border);
+}
+
+.cd-section-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cd-section-meta {
+    font-size: 13px;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.cd-section-chevron {
+    transition: transform 200ms ease;
+    color: var(--text-muted);
+}
+
+.cd-section-chevron.open {
+    transform: rotate(180deg);
+}
+
+.cd-section-lessons {
+    border-top: 1px solid var(--border);
+}
+
+.cd-lesson {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px var(--space-md) 12px calc(var(--space-md) + 8px);
+    font-size: 14px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border);
+    transition: background var(--transition-fast);
+}
+
+.cd-lesson:last-child {
+    border-bottom: none;
+}
+
+.cd-lesson:hover {
+    background: var(--bg-alt);
+}
+
+.cd-lesson-icon {
+    flex-shrink: 0;
+    color: var(--text-muted);
+}
+
+.cd-lesson-title {
+    flex: 1;
+}
+
+.cd-lesson-duration {
+    font-size: 13px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
+.cd-lesson-preview {
+    font-size: 12px;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background: var(--primary-dim);
+    color: var(--primary);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.cd-lesson-lock {
+    color: var(--text-muted);
+    flex-shrink: 0;
+}
+
+/* ─── 講師簡介 ─── */
+.cd-instructor {
+    display: flex;
+    gap: var(--space-lg);
+    padding: var(--space-lg);
+    background: var(--bg-alt);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+}
+
+.cd-instructor-photo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.cd-instructor-detail h3 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 var(--space-xs);
+}
+
+.cd-instructor-stats {
+    display: flex;
+    gap: var(--space-md);
+    margin-bottom: var(--space-sm);
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.cd-instructor-stat {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.cd-instructor-bio {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* ─── 學員評價 ─── */
+.cd-reviews-header {
+    display: flex;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-lg);
+    align-items: flex-start;
+}
+
+.cd-reviews-overall {
+    text-align: center;
+    min-width: 120px;
+}
+
+.cd-reviews-overall-score {
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1;
+}
+
+.cd-reviews-overall-stars {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin: 8px 0 4px;
+    color: var(--warning);
+}
+
+.cd-reviews-overall-count {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+/* 評分分佈 */
+.cd-reviews-bars {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cd-reviews-bar-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.cd-reviews-bar-label {
+    width: 60px;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.cd-reviews-bar-track {
+    flex: 1;
+    height: 8px;
+    background: var(--border);
+    border-radius: var(--radius-full);
+    overflow: hidden;
+}
+
+.cd-reviews-bar-fill {
+    height: 100%;
+    border-radius: var(--radius-full);
+    background: var(--warning);
+    transition: width 300ms ease;
+}
+
+.cd-reviews-bar-pct {
+    width: 36px;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* 評論列表 */
+.cd-review-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.cd-review-item {
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border);
+}
+
+.cd-review-item:last-child {
+    border-bottom: none;
+}
+
+.cd-review-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: var(--space-xs);
+}
+
+.cd-review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-alt);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+}
+
+.cd-review-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 15px;
+}
+
+.cd-review-date {
+    margin-left: auto;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.cd-review-stars {
+    display: flex;
+    gap: 2px;
+    margin-bottom: var(--space-xs);
+    color: var(--warning);
+}
+
+.cd-review-text {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+}
+
+/* ─── 側邊購買欄（Sticky） ─── */
+.cd-purchase-card {
+    position: sticky;
+    top: calc(var(--header-height-desktop) + var(--space-md));
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    box-shadow: var(--shadow-md);
+}
+
+.cd-purchase-price {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+
+.cd-purchase-current {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.cd-purchase-original {
+    font-size: 16px;
+    color: var(--text-muted);
+    text-decoration: line-through;
+}
+
+.cd-purchase-discount {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--error);
+    background: rgba(239, 68, 68, 0.1);
+    padding: 2px 8px;
+    border-radius: var(--radius-sm);
+}
+
+.cd-purchase-free {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--success);
+}
+
+/* CTA 按鈕 */
+.cd-btn-primary {
+    width: 100%;
+    height: 52px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--primary);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cd-btn-primary:hover {
+    background: var(--primary-hover);
+    box-shadow: 0 0 20px rgba(44, 145, 140, 0.3);
+}
+
+.cd-btn-secondary {
+    width: 100%;
+    height: 48px;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.cd-btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+/* 課程特點 */
+.cd-features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--border);
+}
+
+.cd-features-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.cd-feature-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: var(--text-secondary);
+}
+
+.cd-feature-icon {
+    color: var(--primary);
+    flex-shrink: 0;
+}
+
+/* ─── Mobile 底部固定購買欄 ─── */
+.cd-mobile-purchase {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-top: 1px solid var(--border);
+    padding: var(--space-sm) var(--space-md);
+    gap: 12px;
+    align-items: center;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.cd-mobile-price {
+    flex: 1;
+}
+
+.cd-mobile-current {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.cd-mobile-original {
+    font-size: 13px;
+    color: var(--text-muted);
+    text-decoration: line-through;
+    margin-left: 6px;
+}
+
+.cd-mobile-buy {
+    height: 48px;
+    padding: 0 var(--space-lg);
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    background: var(--primary);
+    border: none;
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* ─── 響應式 ─── */
+@media (max-width: 1023px) {
+    .cd-hero-content {
+        grid-template-columns: 1fr;
+        gap: var(--space-lg);
+    }
+
+    .cd-preview {
+        max-width: 100%;
+    }
+
+    .cd-body {
+        grid-template-columns: 1fr;
+    }
+
+    .cd-purchase-card {
+        position: static;
+        order: -1;
+    }
+}
+
+@media (max-width: 767px) {
+    .course-detail-page main {
+        padding-top: var(--header-height-mobile);
+        padding-bottom: 80px;
+    }
+
+    .cd-title {
+        font-size: 24px;
+    }
+
+    .cd-subtitle {
+        font-size: 16px;
+    }
+
+    .cd-goals {
+        grid-template-columns: 1fr;
+    }
+
+    .cd-instructor {
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .cd-instructor-stats {
+        justify-content: center;
+    }
+
+    .cd-reviews-header {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .cd-purchase-card {
+        display: none;
+    }
+
+    .cd-mobile-purchase {
+        display: flex;
+    }
+}

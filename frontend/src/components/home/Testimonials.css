@@ -1,0 +1,112 @@
+/* ========================================
+   Testimonials（社會證明 / 學員見證）
+   ======================================== */
+
+.testimonials {
+    padding: var(--space-3xl) 0;
+    background: var(--bg-alt);
+}
+
+.testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-md);
+}
+
+/* 見證卡片 */
+.testimonial-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--card-backdrop);
+    padding: var(--space-lg);
+    text-align: center;
+    transition: all var(--transition-normal);
+}
+
+.testimonial-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-4px);
+}
+
+[data-theme="dark"] .testimonial-card:hover {
+    border-color: var(--border-hover);
+}
+
+.testimonial-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto var(--space-sm);
+    background: var(--primary-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary);
+    font-size: 28px;
+    font-weight: 700;
+    font-family: var(--font-secondary);
+    overflow: hidden;
+}
+
+.testimonial-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.testimonial-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.testimonial-role {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: var(--space-xs);
+}
+
+.testimonial-stars {
+    display: flex;
+    justify-content: center;
+    gap: 2px;
+    margin-bottom: var(--space-sm);
+}
+
+.testimonial-stars svg {
+    color: var(--warning);
+}
+
+.testimonial-text {
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-bottom: var(--space-sm);
+    font-style: italic;
+}
+
+.testimonial-tag {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    background: var(--primary-dim);
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+/* 響應式 */
+@media (max-width: 1023px) {
+    .testimonials-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .testimonials-grid {
+        grid-template-columns: 1fr;
+    }
+}
