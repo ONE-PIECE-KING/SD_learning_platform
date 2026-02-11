@@ -1,0 +1,161 @@
+.user-dropdown-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.user-trigger {
+    background: none;
+    border: none;
+    padding: 2px;
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all var(--transition-fast);
+}
+
+.user-trigger:hover,
+.user-trigger.active {
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary-dim);
+}
+
+.user-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    user-select: none;
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: 120%;
+    right: 0;
+    width: 240px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px) scale(0.98);
+    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: top right;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.user-dropdown-menu.open {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+.dropdown-user-info {
+    padding: 16px;
+    background-color: var(--bg-alt);
+    border-bottom: 1px solid var(--border);
+}
+
+.user-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.user-email {
+    margin: 2px 0 8px 0;
+    font-size: 12px;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-role-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: var(--primary-dim);
+    color: var(--primary);
+    letter-spacing: 0.5px;
+}
+
+.dropdown-nav {
+    padding: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    background: none;
+    border: none;
+    width: 100%;
+    text-align: left;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.dropdown-item:hover {
+    background-color: var(--hover-overlay);
+    color: var(--text-primary);
+}
+
+.dropdown-item svg {
+    opacity: 0.7;
+    transition: opacity var(--transition-fast);
+}
+
+.dropdown-item:hover svg {
+    opacity: 1;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: var(--border);
+    margin: 0;
+}
+
+.dropdown-item.logout {
+    margin: 8px;
+    width: calc(100% - 16px);
+    color: var(--error);
+}
+
+.dropdown-item.logout:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+}
+
+/* Glassmorphism support if bg-card is transparent */
+@supports (backdrop-filter: blur(12px)) {
+    .user-dropdown-menu {
+        backdrop-filter: blur(12px);
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    [data-theme='dark'] .user-dropdown-menu {
+        background-color: rgba(30, 30, 30, 0.9);
+    }
+}

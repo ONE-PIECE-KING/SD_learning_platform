@@ -1,0 +1,86 @@
+.history-page {
+    height: 100%;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    gap: 8px;
+    width: 300px;
+}
+
+.search-box input {
+    border: none;
+    background: none;
+    outline: none;
+    color: var(--text-primary);
+    width: 100%;
+}
+
+.table-container {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow-x: auto;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.history-table th,
+.history-table td {
+    padding: 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+.history-table th {
+    background-color: var(--bg-alt);
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 14px;
+}
+
+.history-table td {
+    color: var(--text-primary);
+    font-size: 14px;
+}
+
+.font-mono {
+    font-family: monospace;
+}
+
+.status-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.status-badge.success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.status-badge.refunded {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.btn-link:hover {
+    text-decoration: underline;
+}

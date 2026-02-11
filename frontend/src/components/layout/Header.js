@@ -1,54 +1,46 @@
 import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, X, Sun, Moon, BookOpen, LogOut, User } from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { ShoppingCart, X, Sun, Moon, BookOpen, LogOut, User, Menu } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
 import { useCart } from '../../contexts/CartContext';
+import NotificationDropdown from '../notification/NotificationDropdown';
+import UserDropdown from './UserDropdown';
 import './Header.css';
 
 /**
- * 全站 Header 導覽列
- * - 固定頂部、捲動模糊效果
- * - 桌面版導航連結 + 行動版漢堡選單
- * - Light/Dark 主題切換
- * - 登入/登出狀態切換
+ * 全站 Header 導覽列 (Refactored for Pro Max UI)
  */
 export default function Header() {
-    const { user, isAuthenticated, logout } = useAuth();
+    const { isAuthenticated } = useAuth();
     const { totalItems } = useCart();
     const navigate = useNavigate();
+    const location = useLocation();
+
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-    const [theme, setTheme] = useState(() => {
-        return localStorage.getItem('theme') || 'dark';
-    });
+    const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'dark');
 
-    // 初始化主題（從 localStorage 讀取）
+    // Theme effect
     useEffect(() => {
         document.documentElement.setAttribute('data-theme', theme);
     }, [theme]);
 
-    // 監聽捲動
+    // Scroll effect
     useEffect(() => {
-        const handleScroll = () => setIsScrolled(window.scrollY > 10);
+        const handleScroll = () => setIsScrolled(window.scrollY > 20);
         window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // 主題切換
+    // Close mobile menu on route change
+    useEffect(() => {
+        setIsMobileMenuOpen(false);
+    }, [location]);
+
     const toggleTheme = () => {
         const newTheme = theme === 'light' ? 'dark' : 'light';
         setTheme(newTheme);
         localStorage.setItem('theme', newTheme);
-    };
-
-    // 關閉行動選單
-    const closeMobileMenu = () => setIsMobileMenuOpen(false);
-
-    // 登出處理
-    const handleLogout = () => {
-        logout();
-        navigate('/');
-        closeMobileMenu();
     };
 
     const navLinks = [
@@ -61,124 +53,105 @@ export default function Header() {
         <>
             <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
                 <div className="header-inner">
-                    {/* Logo */}
+                    {/* Left: Logo */}
                     <Link to="/" className="header-logo" aria-label="回到首頁">
-                        <BookOpen size={32} strokeWidth={2} />
-                        <span>桑尼資料科學</span>
+                        <div className="logo-icon-wrapper">
+                            <BookOpen size={24} strokeWidth={2.5} />
+                        </div>
+                        <span className="logo-text">桑尼資料科學</span>
                     </Link>
 
-                    {/* 桌面版導航 */}
+                    {/* Center: Desktop Nav */}
                     <nav className="header-nav" aria-label="主要導航">
                         {navLinks.map(({ label, to, isCta }) => (
                             <Link
                                 key={to}
                                 to={to}
-                                className={`header-nav-link ${isCta ? 'cta-link' : ''}`}
+                                className={`header-nav-link ${isCta ? 'cta-link' : ''} ${location.pathname === to ? 'active' : ''}`}
                             >
                                 {label}
                             </Link>
                         ))}
                     </nav>
 
-                    {/* 右側功能區 */}
+                    {/* Right: Actions */}
                     <div className="header-actions">
+                        {/* 1. Theme Toggle */}
                         <button
-                            className="theme-toggle"
+                            className="action-btn theme-toggle"
                             onClick={toggleTheme}
                             aria-label={`切換至${theme === 'light' ? '深色' : '淺色'}模式`}
                         >
                             {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
                         </button>
 
-                        <Link to="/cart" className="header-icon-btn" aria-label="購物車">
-                            <ShoppingCart size={20} />
-                            {totalItems > 0 && <span className="header-cart-badge">{totalItems}</span>}
-                        </Link>
-
+                        {/* 2. Authenticated Actions */}
                         {isAuthenticated ? (
-                            /* 已登入：顯示使用者名稱 + 登出 */
-                            <div className="header-user-area">
-                                <Link to="/dashboard" className="header-user-btn">
-                                    <div className="header-avatar">
-                                        <User size={16} />
-                                    </div>
-                                    <span className="header-user-name">{user.name}</span>
+                            <>
+                                <NotificationDropdown />
+
+                                <Link to="/cart" className="action-btn cart-btn" aria-label="購物車">
+                                    <ShoppingCart size={20} />
+                                    {totalItems > 0 && <span className="badge-count">{totalItems}</span>}
                                 </Link>
-                                <button
-                                    className="header-logout-btn"
-                                    onClick={handleLogout}
-                                    aria-label="登出"
-                                    title="登出"
-                                >
-                                    <LogOut size={18} />
-                                </button>
-                            </div>
+
+                                <div className="divider-vertical" />
+
+                                <UserDropdown />
+                            </>
                         ) : (
-                            /* 未登入：登入 / 註冊按鈕 */
-                            <Link to="/auth/login" className="btn btn-sm btn-primary">
-                                登入 / 註冊
-                            </Link>
+                            /* 3. Guest Actions */
+                            <div className="guest-actions">
+                                <Link to="/cart" className="action-btn cart-btn" aria-label="購物車">
+                                    <ShoppingCart size={20} />
+                                    {totalItems > 0 && <span className="badge-count">{totalItems}</span>}
+                                </Link>
+                                <Link to="/auth/login" className="btn btn-primary btn-login">
+                                    登入 / 註冊
+                                </Link>
+                            </div>
                         )}
 
-                        {/* 漢堡選單按鈕 */}
+                        {/* 4. Mobile Menu Toggle */}
                         <button
-                            className={`header-hamburger ${isMobileMenuOpen ? 'open' : ''}`}
+                            className={`mobile-toggle ${isMobileMenuOpen ? 'active' : ''}`}
                             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
                             aria-label="開啟選單"
-                            aria-expanded={isMobileMenuOpen}
                         >
-                            <span></span>
-                            <span></span>
-                            <span></span>
+                            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
                         </button>
                     </div>
                 </div>
             </header>
 
-            {/* Mobile 側滑選單遮罩 */}
-            <div
-                className={`mobile-nav-overlay ${isMobileMenuOpen ? 'open' : ''}`}
-                onClick={closeMobileMenu}
-                aria-hidden="true"
-            />
+            {/* Mobile Navigation Overlay */}
+            <div className={`mobile-nav-overlay ${isMobileMenuOpen ? 'open' : ''}`} onClick={() => setIsMobileMenuOpen(false)} />
 
-            {/* Mobile 側滑選單 */}
-            <nav className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`} aria-label="行動版導航">
-                <button
-                    onClick={closeMobileMenu}
-                    style={{ position: 'absolute', top: 16, right: 16, color: 'var(--text-primary)' }}
-                    aria-label="關閉選單"
-                >
-                    <X size={24} />
-                </button>
+            {/* Mobile Navigation Panel */}
+            <div className={`mobile-nav-panel ${isMobileMenuOpen ? 'open' : ''}`}>
+                <div className="mobile-nav-header">
+                    <span className="mobile-nav-title">選單</span>
+                    <button className="mobile-close-btn" onClick={() => setIsMobileMenuOpen(false)}>
+                        <X size={24} />
+                    </button>
+                </div>
 
-                {navLinks.map(({ label, to }) => (
-                    <Link key={to} to={to} className="mobile-nav-link" onClick={closeMobileMenu}>
-                        {label}
-                    </Link>
-                ))}
+                <div className="mobile-nav-content">
+                    {navLinks.map(({ label, to }) => (
+                        <Link key={to} to={to} className={`mobile-nav-item ${location.pathname === to ? 'active' : ''}`}>
+                            {label}
+                        </Link>
+                    ))}
 
-                <div className="mobile-nav-actions">
-                    {isAuthenticated ? (
-                        <>
-                            <div className="mobile-nav-user">
-                                <div className="header-avatar">
-                                    <User size={16} />
-                                </div>
-                                <span>{user.name}</span>
-                            </div>
-                            <button className="btn btn-md btn-secondary" onClick={handleLogout}>
-                                <LogOut size={18} />
-                                登出
-                            </button>
-                        </>
-                    ) : (
-                        <Link to="/auth/login" className="btn btn-md btn-primary" onClick={closeMobileMenu}>
+                    <div className="mobile-divider" />
+
+                    {!isAuthenticated && (
+                        <Link to="/auth/login" className="mobile-nav-item highlight">
                             登入 / 註冊
                         </Link>
                     )}
                 </div>
-            </nav>
+            </div>
         </>
     );
 }
