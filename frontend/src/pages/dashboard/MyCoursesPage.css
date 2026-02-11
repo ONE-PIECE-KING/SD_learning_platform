@@ -1,0 +1,226 @@
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+    width: 300px;
+    transition: border-color 0.2s;
+}
+
+.search-bar:focus-within {
+    border-color: var(--primary);
+}
+
+.search-bar input {
+    border: none;
+    background: none;
+    outline: none;
+    color: var(--text-primary);
+    width: 100%;
+}
+
+.course-tabs {
+    display: flex;
+    gap: 24px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 32px;
+}
+
+.course-tabs .tab {
+    background: none;
+    border: none;
+    padding: 12px 0;
+    font-size: 16px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
+}
+
+.course-tabs .tab:hover {
+    color: var(--text-primary);
+}
+
+.course-tabs .tab.active {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+.course-tabs .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background-color: var(--primary);
+}
+
+/* Grid */
+.my-courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.my-course-card {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all 0.2s;
+}
+
+.my-course-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--border-hover);
+}
+
+.course-thumb {
+    height: 180px;
+    background-color: var(--bg-alt);
+    position: relative;
+    overflow: hidden;
+}
+
+.course-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.placeholder-thumb {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+}
+
+.resume-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.course-thumb:hover .resume-overlay {
+    opacity: 1;
+}
+
+.resume-btn {
+    color: white;
+    transition: transform 0.2s;
+}
+
+.resume-btn:hover {
+    transform: scale(1.1);
+}
+
+.course-info {
+    padding: 16px;
+}
+
+.course-title {
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 1.4;
+}
+
+.course-title a {
+    color: var(--text-primary);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.course-title a:hover {
+    color: var(--primary);
+}
+
+.progress-section {
+    margin-bottom: 16px;
+}
+
+.progress-bar {
+    height: 6px;
+    background-color: var(--bg-alt);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: var(--primary);
+    border-radius: 99px;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.completed-icon {
+    color: var(--success);
+}
+
+.continue-btn {
+    display: block;
+    width: 100%;
+    padding: 8px;
+    text-align: center;
+    background-color: var(--bg-alt);
+    color: var(--text-primary);
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.continue-btn:hover {
+    background-color: var(--primary);
+    color: white;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 48px;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+}

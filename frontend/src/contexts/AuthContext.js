@@ -13,6 +13,13 @@ const TEST_ACCOUNT = {
     name: '測試使用者',
 };
 
+const TEACHER_ACCOUNT = {
+    email: 'teacher@example.com',
+    password: 'Teacher1234',
+    name: '測試老師',
+    role: 'teacher'
+};
+
 export function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
 
@@ -25,7 +32,12 @@ export function AuthProvider({ children }) {
         await new Promise((r) => setTimeout(r, 1000));
 
         if (email === TEST_ACCOUNT.email && password === TEST_ACCOUNT.password) {
-            setUser({ name: TEST_ACCOUNT.name, email: TEST_ACCOUNT.email });
+            setUser({ name: TEST_ACCOUNT.name, email: TEST_ACCOUNT.email, role: 'student' });
+            return { success: true };
+        }
+
+        if (email === TEACHER_ACCOUNT.email && password === TEACHER_ACCOUNT.password) {
+            setUser({ name: TEACHER_ACCOUNT.name, email: TEACHER_ACCOUNT.email, role: 'teacher' });
             return { success: true };
         }
         return { success: false, error: '帳號或密碼錯誤，請再試一次' };
@@ -36,8 +48,8 @@ export function AuthProvider({ children }) {
      */
     const register = useCallback(async (name, email) => {
         await new Promise((r) => setTimeout(r, 1000));
-        // 模擬成功：自動登入
-        setUser({ name, email });
+        // 模擬成功：自動登入 (預設為學生)
+        setUser({ name, email, role: 'student' });
         return { success: true };
     }, []);
 

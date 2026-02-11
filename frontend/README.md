@@ -1,70 +1,48 @@
-# Getting Started with Create React App
+# 桑尼資料科學學習平台 (Sunny Data Science Learning Platform)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+本專案是一個基於 React 的線上學習平台「桑尼資料科學」。
 
-## Available Scripts
+## 專案狀態 (Project Status)
 
-In the project directory, you can run:
+### ✅ 已開發功能 (Developed Features)
+*   **身份認證 (Authentication)**: 登入 (模擬)、角色權限控管 (學生/老師)。
+*   **課程瀏覽 (Course Browsing)**: 課程列表、課程詳細頁面。
+*   **購物車 (Shopping Cart)**: 加入/移除商品、購物車資料持久化 (LocalStorage)、結帳流程模擬。
+*   **學生中心 (Student Center)**:
+    *   儀表板首頁 (學生數據統計、快速入口)。
+    *   我的課程 (已購課程列表、學習進度追蹤)。
+    *   側邊導覽列 (響應式設計)。
+*   **教師中心 (Teacher Center)**:
+    *   儀表板首頁 (教師數據統計、快速入口)。
+    *   教師專屬側邊導覽列。
+    *   特定頁面：課程上架 (預留位置)、統計分析 (預留位置)、聯絡簿 (預留位置)。
+
+### 🚧 待開發 / 未完成功能 (Pending / Undeveloped Features)
+*   **後端整合 (Backend Integration)**: 目前使用模擬數據 (`src/data/mockCourses.js`)。
+*   **使用者註冊 (User Registration)**: `/auth/register` 僅為基本頁面。
+*   **課程播放器 (Course Player)**: 尚未實作影片播放介面。
+*   **儀表板子頁面 (Dashboard Sub-pages)**:
+    *   購課記錄 (History)。
+    *   一對一諮詢 (Consultation)。
+    *   個人簡介 (Profile)。
+    *   資源分享 (Resources)。
+
+## 測試帳號 (Test Accounts)
+
+請使用以下帳號測試不同角色的功能：
+
+| 角色 (Role) | Email | 密碼 (Password) |
+| :--- | :--- | :--- |
+| **學生 (Student)** | `test@example.com` | `Test1234` |
+| **老師 (Teacher)** | `teacher@example.com` | `Teacher1234` |
+
+---
+
+## 可用腳本 (Available Scripts)
+
+在專案目錄下，您可以執行：
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+在開發模式下運行應用程式。\
+請在瀏覽器中打開 [http://localhost:3000](http://localhost:3000) 查看。

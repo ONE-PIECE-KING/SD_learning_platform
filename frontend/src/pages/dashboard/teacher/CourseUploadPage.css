@@ -1,0 +1,25 @@
+.course-upload-page {
+    height: 100%;
+}
+
+.upload-container {
+    background-color: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 48px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.upload-placeholder h2 {
+    font-size: 24px;
+    margin-bottom: 16px;
+    color: var(--text-primary);
+}
+
+.upload-placeholder p {
+    color: var(--text-secondary);
+}
