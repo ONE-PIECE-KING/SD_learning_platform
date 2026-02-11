@@ -9,6 +9,7 @@ import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import MOCK_COURSES, { LEVEL_MAP } from '../../data/mockCourses';
 import { getCourseDetail } from '../../data/mockCourseDetails';
+import { useCart } from '../../contexts/CartContext';
 import './CourseDetailPage.css';
 
 /* ─── 分頁名稱 ─── */
@@ -51,6 +52,8 @@ function LessonIcon({ type }) {
 export default function CourseDetailPage() {
     const { id } = useParams();
     const courseId = parseInt(id, 10);
+    const { addToCart, isInCart } = useCart();
+    const added = isInCart(courseId);
 
     /* 進入頁面時自動捲到頂部 */
     useEffect(() => {
@@ -390,9 +393,13 @@ export default function CourseDetailPage() {
                                 {isFree ? '免費開始學習' : '立即購買'}
                             </button>
                             {!isFree && (
-                                <button className="cd-btn-secondary">
+                                <button
+                                    className={`cd-btn-secondary ${added ? 'added' : ''}`}
+                                    onClick={() => !added && addToCart(course.id)}
+                                    disabled={added}
+                                >
                                     <ShoppingCart size={18} />
-                                    加入購物車
+                                    {added ? '已加入購物車' : '加入購物車'}
                                 </button>
                             )}
 

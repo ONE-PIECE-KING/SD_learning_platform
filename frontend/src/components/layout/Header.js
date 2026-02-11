@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart, X, Sun, Moon, BookOpen, LogOut, User } from 'lucide-react';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from '../../contexts/CartContext';
 import './Header.css';
 
 /**
@@ -13,6 +14,7 @@ import './Header.css';
  */
 export default function Header() {
     const { user, isAuthenticated, logout } = useAuth();
+    const { totalItems } = useCart();
     const navigate = useNavigate();
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -90,7 +92,7 @@ export default function Header() {
 
                         <Link to="/cart" className="header-icon-btn" aria-label="購物車">
                             <ShoppingCart size={20} />
-                            <span className="header-cart-badge">0</span>
+                            {totalItems > 0 && <span className="header-cart-badge">{totalItems}</span>}
                         </Link>
 
                         {isAuthenticated ? (

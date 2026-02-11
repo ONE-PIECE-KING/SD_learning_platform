@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
+import { CartProvider } from './contexts/CartContext';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -7,6 +8,7 @@ import CoursesPage from './pages/courses/CoursesPage';
 import CourseDetailPage from './pages/courses/CourseDetailPage';
 import ConsultPage from './pages/consult/ConsultPage';
 import ResourcesPage from './pages/resources/ResourcesPage';
+import CartPage from './pages/cart/CartPage';
 import LegalPage from './pages/legal/LegalPage';
 import './App.css';
 
@@ -18,16 +20,19 @@ function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/auth/login" element={<LoginPage />} />
-          <Route path="/auth/register" element={<RegisterPage />} />
-          <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/courses/:id" element={<CourseDetailPage />} />
-          <Route path="/consult" element={<ConsultPage />} />
-          <Route path="/resources" element={<ResourcesPage />} />
-          <Route path="/legal/:type" element={<LegalPage />} />
-        </Routes>
+        <CartProvider>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/auth/login" element={<LoginPage />} />
+            <Route path="/auth/register" element={<RegisterPage />} />
+            <Route path="/courses" element={<CoursesPage />} />
+            <Route path="/courses/:id" element={<CourseDetailPage />} />
+            <Route path="/consult" element={<ConsultPage />} />
+            <Route path="/resources" element={<ResourcesPage />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/legal/:type" element={<LegalPage />} />
+          </Routes>
+        </CartProvider>
       </AuthProvider>
     </BrowserRouter>
   );
