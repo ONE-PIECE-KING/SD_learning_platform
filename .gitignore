@@ -246,6 +246,7 @@ docker-compose.override.yml
 *.sqlite3
 *.sql.gz
 data/
+!frontend/src/data/
 db_data/
 
 # ============================================================
