@@ -11,6 +11,8 @@ import TeacherContactPage from './pages/dashboard/teacher/TeacherContactPage';
 import MemberProfilePage from './pages/dashboard/MemberProfilePage';
 import SettingsPage from './pages/dashboard/SettingsPage';
 import PurchaseHistoryPage from './pages/dashboard/PurchaseHistoryPage';
+import DashboardConsultPage from './pages/dashboard/DashboardConsultPage';
+import DashboardResourcesPage from './pages/dashboard/DashboardResourcesPage';
 import HomePage from './pages/HomePage';
 import LoginPage from './pages/auth/LoginPage';
 import RegisterPage from './pages/auth/RegisterPage';
@@ -31,36 +33,38 @@ function App() {
     <BrowserRouter>
       <AuthProvider>
         <CartProvider>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/auth/login" element={<LoginPage />} />
-            <Route path="/auth/register" element={<RegisterPage />} />
+          <NotificationProvider>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/auth/login" element={<LoginPage />} />
+              <Route path="/auth/register" element={<RegisterPage />} />
 
-            {/* Dashboard Routes */}
-            <Route path="/dashboard" element={<DashboardLayout />}>
-              <Route index element={<DashboardHome />} />
-              <Route path="my-courses" element={<MyCoursesPage />} />
+              {/* Dashboard Routes */}
+              <Route path="/dashboard" element={<DashboardLayout />}>
+                <Route index element={<DashboardHome />} />
+                <Route path="my-courses" element={<MyCoursesPage />} />
 
-              {/* Teacher Routes */}
-              <Route path="course-upload" element={<CourseUploadPage />} />
-              <Route path="statistics" element={<TeacherStatsPage />} />
-              <Route path="contact" element={<TeacherContactPage />} />
+                {/* Teacher Routes */}
+                <Route path="course-upload" element={<CourseUploadPage />} />
+                <Route path="statistics" element={<TeacherStatsPage />} />
+                <Route path="contact" element={<TeacherContactPage />} />
 
-              {/* Placeholders for other routes */}
-              <Route path="history" element={<PurchaseHistoryPage />} />
-              <Route path="consult" element={<div style={{ padding: 24 }}>一對一諮詢 (Coming Soon)</div>} />
-              <Route path="profile" element={<MemberProfilePage />} />
-              <Route path="resources" element={<div style={{ padding: 24 }}>資源分享 (Coming Soon)</div>} />
-              <Route path="settings" element={<SettingsPage />} />
-            </Route>
+                {/* Placeholders for other routes */}
+                <Route path="history" element={<PurchaseHistoryPage />} />
+                <Route path="consult" element={<DashboardConsultPage />} />
+                <Route path="profile" element={<MemberProfilePage />} />
+                <Route path="resources" element={<DashboardResourcesPage />} />
+                <Route path="settings" element={<SettingsPage />} />
+              </Route>
 
-            <Route path="/courses" element={<CoursesPage />} />
-            <Route path="/courses/:id" element={<CourseDetailPage />} />
-            <Route path="/consult" element={<ConsultPage />} />
-            <Route path="/resources" element={<ResourcesPage />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route path="/legal/:type" element={<LegalPage />} />
-          </Routes>
+              <Route path="/courses" element={<CoursesPage />} />
+              <Route path="/courses/:id" element={<CourseDetailPage />} />
+              <Route path="/consult" element={<ConsultPage />} />
+              <Route path="/resources" element={<ResourcesPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="/legal/:type" element={<LegalPage />} />
+            </Routes>
+          </NotificationProvider>
         </CartProvider>
       </AuthProvider>
     </BrowserRouter>

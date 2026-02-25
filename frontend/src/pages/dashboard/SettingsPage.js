@@ -17,18 +17,13 @@ export default function SettingsPage() {
 
     const toggleSetting = (key) => {
         setSettings(prev => {
-            const newVal = !prev[key];
             if (key === 'theme') {
                 const newTheme = prev.theme === 'light' ? 'dark' : 'light';
-                // Note: Header handles actual theme switching via its own state/effect, 
-                // but conceptually this should be global context. 
-                // For now, we update local state and localStorage.
                 localStorage.setItem('theme', newTheme);
-                // Force reload to apply theme change (simple workaround without global context)
-                window.location.reload();
+                document.documentElement.setAttribute('data-theme', newTheme);
                 return { ...prev, theme: newTheme };
             }
-            return { ...prev, [key]: newVal };
+            return { ...prev, [key]: !prev[key] };
         });
     };
 

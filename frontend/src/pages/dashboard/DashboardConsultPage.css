@@ -1,0 +1,908 @@
+/* ========================================
+   Dashboard 一對一諮詢頁面
+   ======================================== */
+
+/* 頁面標頭 */
+.consult-page .page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+}
+
+.consult-page .page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.consult-page .page-header-actions {
+    display: flex;
+    gap: var(--space-xs);
+}
+
+/* 統計卡片 */
+.consult-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+}
+
+.consult-stat-card {
+    background: var(--bg-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--card-backdrop);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    transition: all var(--transition-normal);
+}
+
+.consult-stat-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .consult-stat-card:hover {
+    border-color: var(--border-hover);
+}
+
+.consult-stat-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.consult-stat-icon.primary {
+    background: var(--primary-dim);
+    color: var(--primary);
+}
+
+.consult-stat-icon.accent {
+    background: rgba(168, 85, 247, 0.1);
+    color: var(--accent);
+}
+
+.consult-stat-icon.success {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.consult-stat-icon.warning {
+    background: rgba(245, 158, 11, 0.1);
+    color: var(--warning);
+}
+
+.consult-stat-info h3 {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.consult-stat-info .stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+/* 分頁標籤 */
+.consult-tabs {
+    display: flex;
+    gap: 4px;
+    margin-bottom: var(--space-md);
+    background: var(--bg-alt);
+    border-radius: var(--radius-md);
+    padding: 4px;
+    border: 1px solid var(--border);
+}
+
+.consult-tab {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-xs);
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-muted);
+    background: transparent;
+    border: none;
+    border-radius: calc(var(--radius-md) - 2px);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.consult-tab:hover {
+    color: var(--text-primary);
+    background: var(--bg-glass);
+}
+
+.consult-tab.active {
+    color: var(--text-on-primary);
+    background: var(--primary);
+    box-shadow: var(--shadow-sm);
+}
+
+/* ========================================
+   我的預約 Tab
+   ======================================== */
+
+/* 篩選列 */
+.consult-filter-bar {
+    display: flex;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+    flex-wrap: wrap;
+}
+
+.filter-chip {
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.filter-chip:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.filter-chip.active {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--text-on-primary);
+}
+
+/* 預約卡片列表 */
+.appointment-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.appointment-card {
+    background: var(--bg-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--card-backdrop);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+    display: flex;
+    gap: var(--space-md);
+    align-items: center;
+    transition: all var(--transition-normal);
+}
+
+.appointment-card:hover {
+    box-shadow: var(--card-shadow-hover);
+    transform: translateY(-2px);
+}
+
+[data-theme="dark"] .appointment-card:hover {
+    border-color: var(--border-hover);
+}
+
+/* 日期區塊 */
+.appointment-date-block {
+    width: 72px;
+    height: 72px;
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-weight: 700;
+}
+
+.appointment-date-block.upcoming {
+    background: var(--primary-dim);
+    color: var(--primary);
+}
+
+.appointment-date-block.completed {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.appointment-date-block.cancelled {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+}
+
+.appointment-date-block .date-month {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.appointment-date-block .date-day {
+    font-size: 24px;
+    line-height: 1.1;
+}
+
+.appointment-date-block .date-weekday {
+    font-size: 11px;
+    font-weight: 500;
+}
+
+/* 預約內容 */
+.appointment-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.appointment-info h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.appointment-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    margin-bottom: 6px;
+}
+
+.appointment-meta-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.appointment-meta-item svg {
+    flex-shrink: 0;
+}
+
+.appointment-topic {
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+/* 狀態徽章 */
+.appointment-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: var(--space-xs);
+    flex-shrink: 0;
+}
+
+.status-tag {
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+}
+
+.status-tag.upcoming {
+    background: var(--primary-dim);
+    color: var(--primary);
+}
+
+.status-tag.completed {
+    background: rgba(16, 185, 129, 0.1);
+    color: var(--success);
+}
+
+.status-tag.cancelled {
+    background: rgba(239, 68, 68, 0.1);
+    color: var(--error);
+}
+
+.status-tag.in-progress {
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--info);
+}
+
+.appointment-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.appointment-actions .btn-sm {
+    height: 32px;
+    font-size: 12px;
+    padding: 0 12px;
+    border-radius: var(--radius-sm);
+}
+
+.btn-outline-danger {
+    background: transparent;
+    border: 1px solid var(--error);
+    color: var(--error);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.btn-outline-danger:hover {
+    background: var(--error);
+    color: white;
+}
+
+/* ========================================
+   預約諮詢 Tab
+   ======================================== */
+
+.booking-layout {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: var(--space-lg);
+    align-items: start;
+}
+
+/* 行事曆區域 */
+.booking-calendar-section {
+    background: var(--bg-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--card-backdrop);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-md);
+}
+
+.calendar-header h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.calendar-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.calendar-nav button {
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.calendar-nav button:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.calendar-nav span {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    min-width: 120px;
+    text-align: center;
+}
+
+/* 日曆網格 */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+}
+
+.calendar-weekday {
+    text-align: center;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 8px 0;
+    text-transform: uppercase;
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.calendar-day:hover:not(.disabled):not(.empty) {
+    background: var(--bg-alt);
+    color: var(--text-primary);
+}
+
+.calendar-day.today {
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.calendar-day.selected {
+    background: var(--primary);
+    color: var(--text-on-primary);
+    font-weight: 700;
+}
+
+.calendar-day.has-slots::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--primary);
+}
+
+.calendar-day.selected.has-slots::after {
+    background: var(--text-on-primary);
+}
+
+.calendar-day.disabled {
+    color: var(--text-muted);
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.calendar-day.empty {
+    cursor: default;
+}
+
+/* 時段選擇 */
+.time-slots-section {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border);
+}
+
+.time-slots-section h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.time-slots-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+}
+
+.time-slot {
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.time-slot:hover:not(.disabled) {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+.time-slot.selected {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: var(--text-on-primary);
+}
+
+.time-slot.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    text-decoration: line-through;
+}
+
+.no-slots-message {
+    text-align: center;
+    padding: var(--space-md);
+    color: var(--text-muted);
+    font-size: 14px;
+}
+
+/* 預約摘要側邊欄 */
+.booking-summary-sidebar {
+    position: sticky;
+    top: calc(var(--header-height-desktop) + var(--space-md));
+}
+
+.booking-summary-card {
+    background: var(--bg-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    backdrop-filter: var(--card-backdrop);
+    border-radius: var(--radius-lg);
+    padding: var(--space-md);
+}
+
+.booking-summary-card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: var(--space-md);
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid var(--border);
+}
+
+/* 導師資訊卡 */
+.consultant-mini-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm);
+    background: var(--bg-alt);
+    border-radius: var(--radius-md);
+}
+
+.consultant-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--gradient-primary);
+    color: white;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.consultant-mini-info h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+}
+
+.consultant-mini-info p {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.consultant-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    color: var(--warning);
+    margin-top: 2px;
+}
+
+.consultant-rating span {
+    color: var(--text-muted);
+}
+
+/* 方案選擇 */
+.plan-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: var(--space-md);
+}
+
+.plan-option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    background: transparent;
+    text-align: left;
+    width: 100%;
+}
+
+.plan-option:hover {
+    border-color: var(--primary);
+}
+
+.plan-option.selected {
+    border-color: var(--primary);
+    background: var(--primary-dim);
+}
+
+.plan-radio {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition-normal);
+}
+
+.plan-option.selected .plan-radio {
+    border-color: var(--primary);
+}
+
+.plan-radio-inner {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    transform: scale(0);
+    transition: transform var(--transition-fast);
+}
+
+.plan-option.selected .plan-radio-inner {
+    transform: scale(1);
+}
+
+.plan-details {
+    flex: 1;
+}
+
+.plan-details .plan-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.plan-details .plan-desc {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.plan-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--primary);
+    white-space: nowrap;
+}
+
+/* 預約摘要明細 */
+.booking-details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm);
+    background: var(--bg-alt);
+    border-radius: var(--radius-md);
+}
+
+.booking-detail-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+}
+
+.booking-detail-row .label {
+    color: var(--text-muted);
+}
+
+.booking-detail-row .value {
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.booking-detail-row.total {
+    padding-top: var(--space-xs);
+    border-top: 1px solid var(--border);
+    margin-top: 4px;
+}
+
+.booking-detail-row.total .label {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.booking-detail-row.total .value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.booking-submit-btn {
+    width: 100%;
+    margin-top: var(--space-sm);
+}
+
+/* 需求表單 */
+.consult-form-section {
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border);
+}
+
+.consult-form-section h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: var(--space-sm);
+}
+
+.form-group {
+    margin-bottom: var(--space-sm);
+}
+
+.form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.form-group label .required {
+    color: var(--error);
+    margin-left: 2px;
+}
+
+.form-input,
+.form-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--bg);
+    color: var(--text-primary);
+    font-size: 14px;
+    transition: border-color var(--transition-normal);
+}
+
+.form-input:focus,
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-dim);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* 空狀態 */
+.empty-state {
+    text-align: center;
+    padding: var(--space-2xl) var(--space-md);
+}
+
+.empty-state-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: var(--primary-dim);
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto var(--space-md);
+}
+
+.empty-state h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.empty-state p {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 360px;
+    margin: 0 auto var(--space-md);
+}
+
+/* ========================================
+   響應式
+   ======================================== */
+
+@media (max-width: 1200px) {
+    .booking-layout {
+        grid-template-columns: 1fr 300px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .consult-stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .booking-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-summary-sidebar {
+        position: static;
+    }
+
+    .booking-summary-card {
+        border-radius: var(--radius-md);
+    }
+}
+
+@media (max-width: 768px) {
+    .consult-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .consult-page .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .appointment-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .appointment-date-block {
+        width: auto;
+        height: auto;
+        flex-direction: row;
+        gap: var(--space-xs);
+        padding: 6px 12px;
+    }
+
+    .appointment-date-block .date-day {
+        font-size: 16px;
+    }
+
+    .appointment-status {
+        align-items: flex-start;
+        flex-direction: row;
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .time-slots-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .consult-tabs {
+        flex-direction: column;
+    }
+}
